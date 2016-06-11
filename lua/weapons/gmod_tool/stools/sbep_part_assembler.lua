@@ -193,6 +193,9 @@ if CLIENT then
 	MBSH = { Material( "sprites/sbep_assembler_tool/mbsh"			) , { 35 , 35 } } ,
 	MBSH_MO = { Material( "sprites/sbep_assembler_tool/mbsh_mo"			) , { 35 , 35 } } ,
 	MBSH_S = { Material( "sprites/sbep_assembler_tool/mbsh_s"			) , { 35 , 35 } } ,
+	MBDH = { Material( "sprites/sbep_assembler_tool/mbdh"			) , { 45 , 45 } } ,
+	MBDH_MO = { Material( "sprites/sbep_assembler_tool/mbdh_mo"		) , { 45 , 45 } } ,
+	MBDH_S = { Material( "sprites/sbep_assembler_tool/mbdh_s"		) , { 45 , 45 } } ,
 		
 	MOD1x1 = { Material( "sprites/sbep_assembler_tool/mod1x1"		) , { 35 , 35 } } ,
 	MOD1x1_MO = { Material( "sprites/sbep_assembler_tool/mod1x1_mo"		) , { 35 , 35 } } ,

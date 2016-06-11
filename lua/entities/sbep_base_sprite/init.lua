@@ -20,6 +20,7 @@ local SRT = {
 	LRC5 = false ,
 	LRC6 = false ,
 	
+	MBDH = false,
 	MBSH = false ,
 	
 	MOD1x1 = false ,
