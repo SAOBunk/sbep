@@ -18,6 +18,7 @@ local MatTab = {
 	LRC6 = { Material( "sprites/lrc5"			) , { 21 , 30 } } ,
 	
 	MBSH = { Material( "sprites/mbsh"			) , { 35 , 35 } } ,
+	MBDH = { Material( "sprites/mbdh"			) , { 45 , 45 } } ,
 		
 	MOD1x1 = { Material( "sprites/mod1x1"		) , { 35 , 35 } } ,
 	MOD2x1 = { Material( "sprites/mod2x1"		) , { 35 , 35 } } ,

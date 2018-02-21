@@ -1446,6 +1446,14 @@ are all one -orientation - only.Then open cl_init .lua and make a new entry in t
 		{ type = "MBSH", pos = Vector(-129,0,0), dir = Angle(0,180,0) }
 	},
 	["models/slyfo/airlock_docksys.mdl"] = { { type = "MBSH", pos = Vector(30,0,0), dir = Angle(0,0,0) }, },
+	["models/slyfo/angledown.mdl"] = { 
+		{ type = "MBSH", pos = Vector(0,215,40), dir = Angle(0,90,0) },
+		{ type = "MBSH", pos = Vector(0,-263,-87), dir = Angle(30,-90,0) },
+	},	
+	["models/slyfo/angleup.mdl"] = { 
+		{ type = "MBSH", pos = Vector(0,-270,-55), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(0,207,72), dir = Angle(-30,90,0) },
+	},
 	["models/slyfo/backhatch_engine.mdl"] = { { type = "MBSH", pos = Vector(215,0,0), dir = Angle(0,0,0) }, },
 	["models/slyfo/backhatch_ramp.mdl"] = { { type = "MBSH", pos = Vector(215,0,0), dir = Angle(0,0,0) }, },
 	["models/slyfo/biodome.mdl"] = { { type = "MBSH", pos = Vector(-550,0,121), dir = Angle(0,180,0) }, },
@@ -1468,8 +1476,459 @@ are all one -orientation - only.Then open cl_init .lua and make a new entry in t
 		{ type = "MBSH", pos = Vector(235,0,35), dir = Angle(0,0,0) },
 		{ type = "MBSH", pos = Vector(-235,0,35), dir = Angle(0,180,0) }
 	},
-        ----------------------------------------------------------------------------------------------------------------------------------------
-        ----------------------------------------------------------------------------------------------------------------------------------------
+	["models/slyfo/doubletrilong.mdl"] = { 
+		{ type = "MBSH", pos = Vector(349,120,0), dir = Angle(0,60,0) },
+		{ type = "MBSH", pos = Vector(349,-120,0), dir = Angle(0,-60,0) },
+		{ type = "MBSH", pos = Vector(-349,120,0), dir = Angle(0,120,0) },
+		{ type = "MBSH", pos = Vector(-349,-120,0), dir = Angle(0,-120,0) }
+	},
+	["models/slyfo/doubletrishort.mdl"] = {
+		{ type = "MBSH", pos = Vector(200,100,0), dir = Angle(0,60,0) },
+		{ type = "MBSH", pos = Vector(200,-100,0), dir = Angle(0,-60,0) },
+		{ type = "MBSH", pos = Vector(-200,100,0), dir = Angle(0,120,0) },
+		{ type = "MBSH", pos = Vector(-200,-100,0), dir = Angle(0,-120,0) }
+	},
+	["models/slyfo/gallant_cockpitdoublehuge.mdl"] = {
+		{ type = "MBSH", pos = Vector(-170,512,128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-170,512,-128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-675,512,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-675,512,-128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-170,-512,128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-170,-512,-128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-675,-512,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-675,-512,-128), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/hub2.mdl"] = { --finish this later
+		{ type = "MBSH", pos = Vector(355,-220,0), dir = Angle(0,-30,0) },
+	},
+	["models/slyfo/inverthull.mdl"] = {
+		{ type = "MBSH", pos = Vector(255,0,127), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-255,0,127), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(255,0,-127), dir = Angle(0,0,180) },
+		{ type = "MBSH", pos = Vector(-255,0,-127), dir = Angle(0,180,180) },
+	},
+	["models/slyfo/inverthull_ramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(255,0,127), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-255,0,127), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(255,0,-127), dir = Angle(0,0,180) },
+		{ type = "MBSH", pos = Vector(-255,0,-127), dir = Angle(0,180,180) },
+	},		
+	["models/slyfo/joint_90short.mdl"] = {
+		{ type = "MBSH", pos = Vector(227,-27,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-27,227,0), dir = Angle(0,90,0) },
+	},
+	["models/slyfo/largerad.mdl"] = { --finish this later
+	},
+	["models/slyfo/largetri.mdl"] = {
+		{ type = "MBSH", pos = Vector(-20,-245,0), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(200,135,0), dir = Angle(0,30,0) },
+		{ type = "MBSH", pos = Vector(-234,139,0), dir = Angle(0,150,0) },
+	},
+	["models/slyfo/medglass.mdl"] = { { type = "MBSH", pos = Vector(0,128,0), dir = Angle(0,90,0) }, },
+	["models/slyfo/mednoglass.mdl"] = { { type = "MBSH", pos = Vector(0,128,0), dir = Angle(0,90,0) }, },
+	["models/slyfo/sccleft.mdl"] = { { type = "MBSH", pos = Vector(255,-65,0), dir = Angle(0,0,0) }, },
+	["models/slyfo/sccright.mdl"] = { { type = "MBSH", pos = Vector(-255,-65,-1), dir = Angle(0,180,0) }, },
+	["models/slyfo/shangar.mdl"] = { 
+		{ type = "MBSH", pos = Vector(-255,-280,0), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(255,-280,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(0,-537,0), dir = Angle(0,-90,0) },
+		
+	},
+	["models/slyfo/shortglass.mdl"] = { { type = "MBSH", pos = Vector(0,65,0), dir = Angle(0,90,0) }, },
+	["models/slyfo/shortnoglass.mdl"] = { { type = "MBSH", pos = Vector(0,65,0), dir = Angle(0,90,0) }, },
+	["models/slyfo/sidecockpit.mdl"] = {
+		{ type = "MBSH", pos = Vector(255,-65,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-255,-65,-1), dir = Angle(0,180,0) },
+	},
+    ["models/slyfo/smuggler_double.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256.0, 0, -128.0), dir = Angle(0, 0, 90) }
+    },
+    ["models/slyfo/smuggler_single.mdl"] = {
+       { type = "MBSH", pos = Vector(-256.0, 0, 0), dir = Angle(0, 180, 0) },
+	   { type = "MBSH", pos = Vector(256.0, 0, 0), dir = Angle(0, 0, 0) }
+    },    
+	["models/slyfo/smuggler_single2.mdl"] = {
+       { type = "MBSH", pos = Vector(-256.0, 0, 0), dir = Angle(0, 180, 0) },
+	   { type = "MBSH", pos = Vector(256.0, 0, 0), dir = Angle(0, 0, 0) }
+    },	
+	["models/slyfo/smuggler_single3.mdl"] = {
+       { type = "MBSH", pos = Vector(-256.0, 0, 0), dir = Angle(0, 180, 0) },
+	   { type = "MBSH", pos = Vector(256.0, 0, 0), dir = Angle(0, 0, 0) }
+    },
+	["models/slyfo/sw_cargo.mdl"] = {
+	    { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+	},	
+	["models/slyfo/sw_cargoramp.mdl"] = {
+	    { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+	},
+	["models/slyfo/sw_dwroomlong.mdl"] = {
+		{ type = "MBSH", pos = Vector(765,0,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-765,0,0), dir = Angle(0,180,0) },
+	},	
+	["models/slyfo/sw_dwroomshort.mdl"] = {
+		{ type = "MBSH", pos = Vector(510,0,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-510,0,0), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/thcockpit.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 225.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 225.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -225.0), dir = Angle(0, 180, 180) },
+        { type = "MBSH", pos = Vector(256.0, 0, -225.0), dir = Angle(0, 0, 180) }
+    },	
+	["models/slyfo/thhangar.mdl"] = {
+        { type = "MBSH", pos = Vector(624.0, 0, 225.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(624.0, 0, -225.0), dir = Angle(0, 0, 180) }
+    },	
+	["models/slyfo/thhull.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 225.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 225.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -225.0), dir = Angle(0, 180, 180) },
+        { type = "MBSH", pos = Vector(256.0, 0, -225.0), dir = Angle(0, 0, 180) }
+    },	
+	["models/slyfo/thlong.mdl"] = {
+        { type = "MBSH", pos = Vector(-509.0, 0, 225.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(509.0, 0, 225.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-509.0, 0, -225.0), dir = Angle(0, 180, 180) },
+        { type = "MBSH", pos = Vector(509.0, 0, -225.0), dir = Angle(0, 0, 180) }
+    },	
+	["models/slyfo/thnoramp.mdl"] = {
+        { type = "MBSH", pos = Vector(-243,0,130), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(243,0,225), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-243,0,-130), dir = Angle(0, 180, 180) },
+        { type = "MBSH", pos = Vector(243,0,-225), dir = Angle(0, 0, 180) }
+    },	
+	["models/slyfo/thramp.mdl"] = {
+        { type = "MBSH", pos = Vector(-243,0,130), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(243,0,225), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-243,0,-130), dir = Angle(0, 180, 180) },
+        { type = "MBSH", pos = Vector(243,0,-225), dir = Angle(0, 0, 180) }
+    },
+	["models/slyfo/turnabout.mdl"] = {
+		{ type = "MBSH", pos = Vector(255,225,0), dir = Angle(0,90,0) },
+		{ type = "MBSH", pos = Vector(-255,225,0), dir = Angle(0,90,0) },
+	},
+	["models/slyfo/vert_transfer.mdl"] = {
+		{ type = "MBSH", pos = Vector(255,0,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-255,0,0), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-255,0,-255), dir = Angle(0,180,180) },
+	},
+	["models/slyfo_2/engine_sa_dp1_doublenoramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(-223,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-223,0,-128), dir = Angle(0,180,180) },
+	},	
+	["models/slyfo_2/engine_sa_dp1_doubleramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(-223,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-223,0,-128), dir = Angle(0,180,180) },
+	},	
+	["models/slyfo_2/engine_sa_dp1_huge1.mdl"] = {
+		{ type = "MBSH", pos = Vector(-210,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-210,0,-128), dir = Angle(0,180,180) },
+	},	
+	["models/slyfo_2/engine_sa_dp1_huge2.mdl"] = {
+		{ type = "MBSH", pos = Vector(-210,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-210,0,-128), dir = Angle(0,180,180) },
+	},	
+	["models/slyfo_2/engine_sa_dp1_huge3.mdl"] = {
+		{ type = "MBSH", pos = Vector(-210,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-210,0,-128), dir = Angle(0,180,180) },
+	},
+	["models/slyfo_2/engine_sa_dp1_single1.mdl"] = { { type = "MBSH", pos = Vector(-224,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/engine_sa_dp1_single2.mdl"] = { { type = "MBSH", pos = Vector(-224,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/engine_sa_dp1_single3.mdl"] = { { type = "MBSH", pos = Vector(-224,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/hull_singugen.mdl"] = { { type = "MBSH", pos = Vector(-255,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/hull_singugeninv.mdl"] = { { type = "MBSH", pos = Vector(-255,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/hull_singugenwide.mdl"] = { { type = "MBSH", pos = Vector(-255,0,0), dir = Angle(0,180,0) }, },
+	["models/slyfo_2/hull_singugenwideinv.mdl"] = { { type = "MBSH", pos = Vector(-255,0,0), dir = Angle(0,180,0) }, },
+	["models/spacebuild/medbridge2_360view_doublebridge.mdl"] = {
+		{ type = "MBSH", pos = Vector(-510,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-510,0,-128), dir = Angle(0,180,0) },
+	},
+    ["models/spacebuild/medbridge2_compflatdoublehull.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256.0, 0, -128.0), dir = Angle(0, 0, 90) }
+    },
+	 ["models/spacebuild/medbridge2_compflatdoublehull_centralcolumnelevator.mdl"] = {
+        { type = "MBSH", pos = Vector(-385,0,-128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(385,0,128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-385,0,-128), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(385,0,-128), dir = Angle(0, 0, 90) }
+    },
+    ["models/spacebuild/medbridge2_compflatdoublehull_elevatorshaft.mdl"] = {
+        { type = "MBSH", pos = Vector(-255,0,128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(515,0,128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-255,0,-128), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(515,0,-128), dir = Angle(0, 0, 90) }
+    },
+    ["models/spacebuild/medbridge2_emptydoublehull.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256.0, 0, -128.0), dir = Angle(0, 0, 90) }
+    },
+    ["models/spacebuild/medbridge2_emptydoublehull_decktodeckramp.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256.0, 0, -128.0), dir = Angle(0, 0, 90) }
+    },
+    ["models/spacebuild/medbridge2_enginedoublehull2_narrow.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+    },
+    ["models/spacebuild/medbridge2_enginedoublehull2_wide.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+    },
+    ["models/spacebuild/medbridge2_enginedoublehull_flaps.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, -128.0), dir = Angle(0, 180, 90) },
+    },
+	["models/spacebuild/medbridge2_enginehull3.mdl"] = { { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) } },
+	["models/spacebuild/medbridge2_midsection_doublebridge.mdl"] = {
+        { type = "MBSH", pos = Vector(-383.0, 0, -32.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(383.0, 0, -32.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-383.0, 0, -288.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(383.0, 0, -288.0), dir = Angle(0, 0, 90) }
+    },	
+	["models/spacebuild/medbridge2_midsection_doublebridge2.mdl"] = {
+        { type = "MBSH", pos = Vector(-383.0, 0, -32.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(383.0, 0, -32.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-383.0, 0, -288.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(383.0, 0, -288.0), dir = Angle(0, 0, 90) }
+    },
+    ["models/spacebuild/medbridge2_stackdoublehull.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 384.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 384.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) }
+    },
+    ["models/spacebuild/medbridge2_stackdoublehull_ramp.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 384.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 384.0), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256.0, 0, 128.0), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256.0, 0, 128.0), dir = Angle(0, 0, 0) }
+    },
+	["models/spacebuild/medbridge2_twolevel.mdl"] = {
+		{ type = "MBSH", pos = Vector(-256,0,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,0,-128), dir = Angle(0,180,180) },
+	},      
+	["models/spacebuild/nova/braudside1.mdl"] = {
+            { type = "MBSH", pos = Vector(0, -256.0, 0), dir = Angle(0, 270, 0) },
+            { type = "MBSH", pos = Vector(0, 256.0, 0), dir = Angle(0, 90, 0) }
+    },      
+	["models/spacebuild/nova/crewquarters.mdl"] = {
+            { type = "MBSH", pos = Vector(100, -256.0, 0), dir = Angle(0, 270, 0) },
+            { type = "MBSH", pos = Vector(100, 256.0, 0), dir = Angle(0, 90, 0) }
+    },      
+	["models/spacebuild/nova/hull_lift1.mdl"] = {
+            { type = "MBSH", pos = Vector(0, -256.0, 0), dir = Angle(0, 270, 0) },
+            { type = "MBSH", pos = Vector(0, 256.0, 0), dir = Angle(0, 90, 0) }
+    },
+    ["models/spacebuild/nova/hull_lift_double.mdl"] = {
+        { type = "MBSH", pos = Vector(0, -256.0, 0), dir = Angle(0, -90, 0) },
+        { type = "MBSH", pos = Vector(0, 256.0, 0), dir = Angle(0, 90, 0) },
+        { type = "MBSH", pos = Vector(0, -256.0, -256.0), dir = Angle(0, -90, 90) },
+        { type = "MBSH", pos = Vector(0, 256.0, -256.0), dir = Angle(0, 90, 90) }
+    },
+    ["models/spacebuild/nova/plowbridge.mdl"] = {
+        { type = "MBSH", pos = Vector(0, -205.0, 0.0), dir = Angle(0, -90, 0) },
+        { type = "MBSH", pos = Vector(0, -205.0, -256.0), dir = Angle(0, -90, 90) },
+    },
+    ["models/spacebuild/nova/supercarrierbridge.mdl"] = {
+        { type = "MBSH", pos = Vector(0, 305.0, 0), dir = Angle(0, 90, 0) },
+        { type = "MBSH", pos = Vector(0, 305.0, -256), dir = Angle(0, 90, 90) },
+    },
+	["models/spacebuild/nova/tallbridge.mdl"] = { { type = "MBSH", pos = Vector(-370,0,128), dir = Angle(0,180,0) }, },
+    ["models/twinbladetm/enginecontrolmk2.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256, 0, 128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256, 0, -128.0), dir = Angle(0, 0, 90) }
+    },    
+	["models/twinbladetm/enginemk2.mdl"] = {
+        { type = "MBSH", pos = Vector(256, 0, 128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(256, 0, -128.0), dir = Angle(0, 0, 90) }
+    },
+    ["models/twinbladetm/entrymk2.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256, 0, 128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256, 0, -128.0), dir = Angle(0, 0, 90) }
+    },    
+    ["models/twinbladetm/hangarmk2.mdl"] = {
+        { type = "MBSH", pos = Vector(-256.0, 0, 128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(256, 0, 128), dir = Angle(0, 0, 0) },
+        { type = "MBSH", pos = Vector(-256, 0, -128.0), dir = Angle(0, 180, 90) },
+        { type = "MBSH", pos = Vector(256, 0, -128.0), dir = Angle(0, 0, 90) }
+    }, 
+    ["models/twinbladetm/plowbridgemk2.mdl"] = {
+        { type = "MBSH", pos = Vector(-395.0, 0, 128), dir = Angle(0, 180, 0) },
+        { type = "MBSH", pos = Vector(-395.0, 0, -128.0), dir = Angle(0, 180, 0) },
+    },   
+    ----------------------------------------------------------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------------------------------------------------------
+	["models/slyfo/dw_cargo.mdl"] = { 
+		{ type = "MBDH", pos = Vector(-512,0,128), dir = Angle(0,180,0) }, 
+		{ type = "MBDH", pos = Vector(512,0,128), dir = Angle(0,0,0) }, 
+	},
+	["models/slyfo/dw_cargoramp.mdl"] = { 
+		{ type = "MBDH", pos = Vector(-512,0,128), dir = Angle(0,180,0) }, 
+		{ type = "MBDH", pos = Vector(512,0,128), dir = Angle(0,0,0) }, 
+	},
+	["models/slyfo/dw_double_ramp.mdl"] = { 
+		{ type = "MBDH", pos = Vector(256,0,128), dir = Angle(0,0,0) }, 
+		{ type = "MBDH", pos = Vector(-256,0,128), dir = Angle(0,180,0) }, 
+		{ type = "MBDH", pos = Vector(-256,0,-128), dir = Angle(0,180,180) }, 
+		{ type = "MBDH", pos = Vector(256,0,-128), dir = Angle(0,0,180) }, 
+	},
+	["models/slyfo/dw_sw_convleft.mdl"] = { 
+		{ type = "MBDH", pos = Vector(256,0,0), dir = Angle(0,0,0) }, 
+		{ type = "MBSH", pos = Vector(-256,-197,0), dir = Angle(0,180,0) }, 
+	},
+	["models/slyfo/dw_sw_convright.mdl"] = { 
+		{ type = "MBDH", pos = Vector(256,0,0), dir = Angle(0,0,0) }, 
+		{ type = "MBSH", pos = Vector(-256,197,0), dir = Angle(0,180,0) }, 
+	},
+	["models/slyfo/dw_sw_conv.mdl"] = { 
+		{ type = "MBDH", pos = Vector(256,0,0), dir = Angle(0,0,0) }, 
+		{ type = "MBSH", pos = Vector(-256,0,0), dir = Angle(0,180,0) }, 
+	},
+	["models/slyfo/dwbent.mdl"] = { 
+		{ type = "MBSH", pos = Vector(256,-198,0), dir = Angle(0,0,0) }, 
+		{ type = "MBSH", pos = Vector(-256,-198,0), dir = Angle(0,180,0) }, 
+		{ type = "MBSH", pos = Vector(-256,198,0), dir = Angle(0,180,0) }, 
+		{ type = "MBSH", pos = Vector(256,198,0), dir = Angle(0,0,0) }, 
+	},
+	["models/slyfo/dwbump.mdl"] = { 
+		{ type = "MBSH", pos = Vector(256,-198,0), dir = Angle(0,0,0) }, 
+		{ type = "MBSH", pos = Vector(-256,-198,0), dir = Angle(0,180,0) }, 
+		{ type = "MBSH", pos = Vector(-256,198,0), dir = Angle(0,180,0) }, 
+		{ type = "MBSH", pos = Vector(256,198,0), dir = Angle(0,0,0) }, 
+	},
+	["models/slyfo/dwsmooth.mdl"] = { 
+		{ type = "MBDH", pos = Vector(256,0,0), dir = Angle(0,0,0) }, 
+		{ type = "MBDH", pos = Vector(-256,0,0), dir = Angle(0,180,0) }, 
+	},    
+	----------------------------------------------------------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------------------------------------------------------
+	["models/slyfo/largerad.mdl"] = {
+		{ type = "MBSH", pos = Vector(665,384.5,0), dir = Angle(0,30,0) },
+		{ type = "MBSH", pos = Vector(-665,384.5,0), dir = Angle(0,-210,0) },
+		{ type = "MBSH", pos = Vector(665,-384.5,0), dir = Angle(0,-30,0) },
+		{ type = "MBSH", pos = Vector(-665,-384.5,0), dir = Angle(0,210,0) },
+		{ type = "MBSH", pos = Vector(0,-768,0), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(0,768,0), dir = Angle(0,90,0) },
+	},
+	["models/slyfo/ramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(0,360,-80), dir = Angle(0,90,0) },
+		{ type = "MBSH", pos = Vector(0,-360,80), dir = Angle(0,-90,0) },
+	},
+	["models/slyfo/rampleft.mdl"] = {
+		{ type = "MBSH", pos = Vector(227,455,132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(227,-455,-132), dir = Angle(0,0,0) },
+	},
+	["models/slyfo/rampright.mdl"] = {
+		{ type = "MBSH", pos = Vector(-227,455,132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-227,-455,-132), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/smallrad.mdl"] = {
+		{ type = "MBSH", pos = Vector(322,558.5,0), dir = Angle(0,60,0) }, -- 
+		{ type = "MBSH", pos = Vector(322,-558.5,0), dir = Angle(0,-60,0) }, -- 
+		{ type = "MBSH", pos = Vector(-322,558.5,0), dir = Angle(0,120,0) }, --
+		{ type = "MBSH", pos = Vector(-322,-558.5,0), dir = Angle(0,240,0) }, 
+		{ type = "MBSH", pos = Vector(-645,0,0), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(645,0,0), dir = Angle(0,0,0) },
+	},
+	["models/slyfo/smalltri.mdl"] = {
+		{ type = "MBSH", pos = Vector(-164,96,0), dir = Angle(0,150,0) }, -- 
+		{ type = "MBSH", pos = Vector(77,96,0), dir = Angle(0,30,0) }, -- 
+		{ type = "MBSH", pos = Vector(-45,-115,0), dir = Angle(0,-90,0) }, --
+	},
+	["models/slyfo/tramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(-256,455,132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,-132), dir = Angle(0,0,0) },
+	},
+	["models/slyfo/trampdouble.mdl"] = {
+		{ type = "MBSH", pos = Vector(-256,455,4), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,-4), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,4), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,-4), dir = Angle(0,0,0) },		
+		{ type = "MBSH", pos = Vector(-256,455,260), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,-260), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,260), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,-260), dir = Angle(0,0,0) },
+	},
+	["models/slyfo/tramptriple.mdl"] = {
+		{ type = "MBSH", pos = Vector(256,912,-132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-256,912,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-912,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,-912,-132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,0,132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-256,0,132), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/tramptripleinv.mdl"] = {
+		{ type = "MBSH", pos = Vector(256,912,-132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-256,912,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-912,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,-912,-132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,0,132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-256,0,132), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/triangularhub.mdl"] = {
+		{ type = "MBSH", pos = Vector(210,484,0), dir = Angle(0,60,0) },
+		{ type = "MBSH", pos = Vector(348.5,-484,0), dir = Angle(0,-60,0) },
+		{ type = "MBSH", pos = Vector(-210,484,0), dir = Angle(0,120,0) },
+		{ type = "MBSH", pos = Vector(-348.5,-484,0), dir = Angle(0,-120,0) },
+		{ type = "MBSH", pos = Vector(557,-99.5,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-557,-99.5,0), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/trit.mdl"] = {
+		{ type = "MBSH", pos = Vector(120,-245,0), dir = Angle(0,-30,0) },
+		{ type = "MBSH", pos = Vector(-120,-245,0), dir = Angle(0,210,0) },
+		{ type = "MBSH", pos = Vector(256,220,0), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-256,220,0), dir = Angle(0,180,0) },
+	},
+	["models/slyfo/xramp.mdl"] = {
+		{ type = "MBSH", pos = Vector(-256,455,132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,-132), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,-132), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(0,-711,-132), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(0,711,132), dir = Angle(0,90,0) },
+	},
+	["models/slyfo/xrampdouble.mdl"] = {
+		{ type = "MBSH", pos = Vector(-256,455,4), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,-260), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,4), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,-260), dir = Angle(0,0,0) },			
+		{ type = "MBSH", pos = Vector(0,-711,-260), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(0,711,4), dir = Angle(0,90,0) },
+		{ type = "MBSH", pos = Vector(-256,455,260), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-256,-455,4 ), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(256,455,260), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(256,-455,4 ), dir = Angle(0,0,0) },			
+		{ type = "MBSH", pos = Vector(0,-711,-4 ), dir = Angle(0,-90,0) },
+		{ type = "MBSH", pos = Vector(0,711,260), dir = Angle(0,90,0) },
+	},
+	["models/twinbladetm/centralcontrol.mdl"] = {
+		{ type = "MBSH", pos = Vector(512,200,128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-512,200,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-512,-200,128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(-512,-200,-128), dir = Angle(0,180,0) },
+		{ type = "MBSH", pos = Vector(512,-200,128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(512,-200,-128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(512,200,-128), dir = Angle(0,0,0) },
+		{ type = "MBSH", pos = Vector(-512,200,-128), dir = Angle(0,180,0) },
+	},
     }
 
     for m, D in pairs(MEDB_PAD) do -- Adds all the data in the Medbridge table to the list
