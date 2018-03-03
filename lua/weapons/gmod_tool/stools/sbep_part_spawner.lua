@@ -16,7 +16,7 @@ end
 TOOL.ClientConVar["model"] = "models/smallbridge/hulls_sw/sbhulle1.mdl"
 TOOL.ClientConVar["skin"] = 0
 TOOL.ClientConVar["glass"] = 0
-TOOL.ClientConVar["hab_mod"] = 0
+--TOOL.ClientConVar["hab_mod"] = 0
 TOOL.ClientConVar["weld"] = 0
 function TOOL:LeftClick(trace)
 
