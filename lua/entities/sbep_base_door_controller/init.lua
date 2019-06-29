@@ -59,7 +59,6 @@ function ENT:AddDoors()
 	for n,Data in pairs( doors ) do
 		local D = ents.Create( "sbep_base_door" )
 			D:Spawn()
-			D:Initialize()
 			D:SetDoorType( Data.type )
 			D:Attach( self , Data.V , Data.A )
 			D:SetController( self , n )

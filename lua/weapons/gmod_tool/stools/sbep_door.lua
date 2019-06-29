@@ -121,40 +121,8 @@ function TOOL:Reload( tr )
 end
 	
 function TOOL:Think()
- 	if ( !IsValid( self.GhostEntity ) || self.GhostEntity:GetModel() != self:GetClientInfo( "model" ) ) then
-		self:MakeGhostEntity( self:GetClientInfo( "model"), Vector( 0, 0, 0 ), Angle( 0, 0, 0 )) 
-	end
-	
-	self:UpdateGhostPart( self.GhostEntity, self:GetOwner())
 
 end
-function TOOL:UpdateGhostPart( ent, pl )
-
-	if CLIENT then return end
-	if ( !IsValid( ent ) ) then return end
-
-	local tr = util.GetPlayerTrace( pl )
-	local trace	= util.TraceLine( tr )
-	if ( !trace.Hit ) then return end
-
-	if ( trace.Entity:IsPlayer()) then
-
-		ent:SetNoDraw( true )
-		return
-
-	end
-	
-	local CurPos = ent:GetPos()
-	local NearestPoint = ent:NearestPoint( CurPos - ( trace.HitNormal * 512 ) )
-	local Offset = CurPos - NearestPoint
-
-	
-	ent:SetPos( trace.HitPos + Offset )
-
-	ent:SetNoDraw( false )
-
-end
-
 function TOOL.BuildCPanel( panel )
 	panel:SetSpacing( 10 )
 	panel:SetName( "SBEP Door" )
