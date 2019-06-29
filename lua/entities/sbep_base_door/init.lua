@@ -214,7 +214,7 @@ function ENT:Attach( ent , V , A )
 	if A then Aoff = Angle( A.p , A.y , A.r ) end
 	self:SetAngles( ent:GetAngles() + Aoff )
 		
-	self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
+	--self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
 	
 	self:SetSkin( ent:GetSkin() )
 	--self.OpenTrigger = false
@@ -224,6 +224,7 @@ function ENT:Attach( ent , V , A )
 	self.AngOff	= Aoff
 	
 	self:GetPhysicsObject():EnableMotion( true )
+	self:SetParent(ent)
 	ent:DeleteOnRemove( self )
 end
 
@@ -320,19 +321,19 @@ function ENT:Think()
 			self:Close()
 		end
 	end
-	if (self.ATEnt and self.ATEnt:IsValid() ) and (!self.ATWeld or !self.ATWeld:IsValid()) then
-		local wt = constraint.FindConstraints( self , "Weld" )
-		for n,C in ipairs( wt ) do
-			if C.Ent2 == self.ATEnt or C.Ent1 == self.ATEnt then
-				self.ATWeld = C.Constraint
-			end
-		end
-		if !self.Duped and (!self.ATWeld or !self.ATWeld:IsValid()) then
- 			self:Attach( self.ATEnt , self.VecOff , self.AngOff )
-		else
-			if self.ATWeld then self.Duped=nil end
-		end
-	end
+	-- if (self.ATEnt and self.ATEnt:IsValid() ) and (!self.ATWeld or !self.ATWeld:IsValid()) then
+		-- local wt = constraint.FindConstraints( self , "Weld" )
+		-- for n,C in ipairs( wt ) do
+			-- if C.Ent2 == self.ATEnt or C.Ent1 == self.ATEnt then
+				-- self.ATWeld = C.Constraint
+			-- end
+		-- end
+		-- if !self.Duped and (!self.ATWeld or !self.ATWeld:IsValid()) then
+ 			-- self:Attach( self.ATEnt , self.VecOff , self.AngOff )
+		-- else
+			-- if self.ATWeld then self.Duped=nil end
+		-- end
+	-- end
 	if self.Cont then
 		if self:GetSkin() ~= self.Cont.Skin && self.Cont.Skin then
 			self:SetSkin( self.Cont.Skin )

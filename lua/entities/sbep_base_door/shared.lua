@@ -9,3 +9,5 @@ ENT.Spawnable			  = false
 ENT.AdminSpawnable		  = false
 
 ENT.Purpose 		      = "To open and close."
+
+ENT.PhysgunDisabled = true

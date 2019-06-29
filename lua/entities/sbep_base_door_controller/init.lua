@@ -17,6 +17,7 @@ function ENT:Initialize()
 			phys:EnableMotion( false )
 		end
 	self.SpawnTime = CurTime()
+	self:AddDoors()
 end
 
 function ENT:MakeWire( bWire , bAdjust )
