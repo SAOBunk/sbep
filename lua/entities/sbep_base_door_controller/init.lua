@@ -17,7 +17,6 @@ function ENT:Initialize()
 			phys:EnableMotion( false )
 		end
 	self.SpawnTime = CurTime()
-	self:AddDoors()
 end
 
 function ENT:MakeWire( bWire , bAdjust )
@@ -82,6 +81,9 @@ function ENT:Use( activator, caller )
 end
 
 function ENT:Think()
+	if !(self.DT) then
+		self:AddDoors()
+	end
 	local skin = self:GetSkin()
 	if self:SkinCount() > 5 then
 		self.Skin = math.floor( skin / 2 )
