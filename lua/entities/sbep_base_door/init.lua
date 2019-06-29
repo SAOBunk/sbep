@@ -213,9 +213,7 @@ function ENT:Attach( ent , V , A )
 	local Aoff = Angle(0,0,0)
 	if A then Aoff = Angle( A.p , A.y , A.r ) end
 	self:SetAngles( ent:GetAngles() + Aoff )
-		
-	--self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
-	
+			
 	self:SetSkin( ent:GetSkin() )
 	--self.OpenTrigger = false
 	
@@ -226,6 +224,7 @@ function ENT:Attach( ent , V , A )
 	self:GetPhysicsObject():EnableMotion( true )
 	self:SetParent(ent)
 	ent:DeleteOnRemove( self )
+	timer.Simple(0, function() if IsValid(self) and IsValid(ent) then self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true ) end end)
 end
 
 function ENT:SetController( cont , sysnum )
@@ -372,34 +371,7 @@ function ENT:OnRemove()
 end
 
 function ENT:PreEntityCopy()
-	local DI = {}
-	DI.type 	= self.type
-	DI.DClass = self.DClass
-	if self.Cont then
-		DI.Cont 	= self.Cont:EntIndex()
-	end
-	DI.D 		= self.D
-	DI.ATEnt	= self.ATEnt:EntIndex()
-	DI.VecOff	= self.VecOff
-	DI.AngOff	= self.AngOff
-	duplicator.StoreEntityModifier(self, "SBEPD", DI)
 end
-duplicator.RegisterEntityModifier( "SBEPD" , function() end)
 
 function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
-	local DI = Ent.EntityMods.SBEPD
-
-	self.type 	= DI.type
-	self.DClass = DI.DClass or 1
-	self.D 		= DI.D
-	self.ATEnt	= CreatedEntities[ DI.ATEnt ]
-	self.VecOff	= DI.VecOff
-	self.AngOff	= DI.AngOff
-	self.Duped	= true
-	if Ent.EntityMods.SBEPD.Cont then
-		self:SetController( CreatedEntities[ DI.Cont ] )
-	end
-	self:PhysicsInitialize()
-	self:GetSequenceData()
-	self:Close()
 end

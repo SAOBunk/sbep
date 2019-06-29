@@ -85,9 +85,11 @@ function TOOL:LeftClick( tr )
 	DoorController:SetPos( pos - Vector(0,0, DoorController:OBBMins().z ) )
 	
 	if CPPI then DoorController:CPPISetOwner(ply) end
-	
-	DoorController:MakeWire( ply:GetInfoNum( "sbep_door_wire", 1 ) == 1 )
-
+	timer.Simple(0, function()
+		if IsValid(DoorController) then
+			DoorController:MakeWire( ply:GetInfoNum( "sbep_door_wire", 1 ) == 1 )
+		end
+	end)
 	undo.Create("SBEP Door")
 		undo.AddEntity( DoorController )
 		if DoorController.DT then

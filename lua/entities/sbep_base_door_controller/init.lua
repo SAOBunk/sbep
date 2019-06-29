@@ -27,7 +27,7 @@ function ENT:MakeWire( bWire , bAdjust )
 	self.SBEPWireInputs = {}
 	self.SBEPWireOutputs = {}
 	
-	for k,v in ipairs( self.DT ) do
+	for k,v in pairs( self.DT ) do
 		table.insert(self.SBEPWireInputs , "Open_"..tostring( k ) )
 		table.insert(self.SBEPWireInputs , "Lock_"..tostring( k ) )
 		
@@ -131,13 +131,14 @@ end
 function ENT:PreEntityCopy()
 	local DI = {}
 
-	DI.EnableWire = self.EnableWire
-	DI.EnableUse 	= self.EnableUse
-	DI.DT = {}
-	for m,n in ipairs(self.DT) do
+	DI.EnableWire	= self.EnableWire
+	DI.EnableUse	= self.EnableUse
+	DI.DT 			= {}
+	DI.DoorModels 	= {}
+	for m,n in pairs(self.DT) do
 		DI.DT[m] = n:EntIndex()
+		DI.DoorModels[m] = n:GetDoorClass()
 	end
-	
 	if WireAddon then
 		DI.WireData = WireLib.BuildDupeInfo( self )
 	end
@@ -152,10 +153,9 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 	self.EnableWire = DI.EnableWire
 	self.EnableUse 	= DI.EnableUse
 	self.DT			= {}
-	for n,I in ipairs( DI.DT ) do
-		if I then
-			self.DT[n] = CreatedEntities[I]
-		end
+	self:AddDoors()
+	for k,v in pairs(self.DT) do
+		v:SetDoorClass(DI.DoorModels[k])
 	end
 	self:MakeWire()
 	
