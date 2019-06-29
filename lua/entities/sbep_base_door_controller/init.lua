@@ -57,7 +57,7 @@ function ENT:AddDoors()
 	local doors = MST[ string.lower(self:GetModel()) ]
 	if !doors then return false end
 	self.DT = {}
-	for n,Data in ipairs( doors ) do
+	for n,Data in pairs( doors ) do
 		local D = ents.Create( "sbep_base_door" )
 			D:Spawn()
 			D:Initialize()

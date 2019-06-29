@@ -403,16 +403,3 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 	self:GetSequenceData()
 	self:Close()
 end
-
-function MakeDoor( Player, Data )
-
-	local ent = ents.Create( Data.Class )
-	duplicator.DoGeneric( ent, Data )
-	ent:Spawn()
-
-	duplicator.DoGenericPhysics( ent, Player, Data )
-
-	return ent
-
-end
-duplicator.RegisterEntityClass( "sbep_base_door", MakeDoor, "Data" )
