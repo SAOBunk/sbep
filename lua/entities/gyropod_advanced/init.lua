@@ -12,6 +12,8 @@ util.PrecacheSound( "buttons/combine_button3.wav" )
 util.PrecacheSound( "buttons/combine_button2.wav" )
 util.PrecacheSound( "buttons/lever7.wav" )
 
+ENT.HasGravityOverride = true
+
 function ENT:Initialize()
 	self:SetName("advanced_gyropod")
 	self:PhysicsInit( SOLID_VPHYSICS )
