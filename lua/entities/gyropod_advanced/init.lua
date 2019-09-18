@@ -12,8 +12,6 @@ util.PrecacheSound( "buttons/combine_button3.wav" )
 util.PrecacheSound( "buttons/combine_button2.wav" )
 util.PrecacheSound( "buttons/lever7.wav" )
 
-ENT.HasGravityOverride = true
-
 function ENT:Initialize()
 	self:SetName("advanced_gyropod")
 	self:PhysicsInit( SOLID_VPHYSICS )
@@ -695,8 +693,10 @@ function ENT:Link(pod)
 end
 
 function ENT:OnRemove()
-	if self.sound then
+	if self.HighEngineSound and self.HighEngineSound.Stop then
 		self.HighEngineSound:Stop()
+	end
+	if self.LowDroneSound and self.LowDroneSound.Stop then
 		self.LowDroneSound:Stop()
 	end	
 	local constrained = self.AllGyroConstraints
