@@ -8,8 +8,10 @@ local DD = list.Get( "SBEP_DoorControllerModels" )
 function Bezier4(P0, P1, P2, P3, Step)
         return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
 end
+
 hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 	if IsValid(ply) and ply["TravellingBetweenClamps"] then
+		ply:SetMoveType(MOVETYPE_FLY)
 		if IsValid(ply["StartClamp"]) and IsValid(ply["EndClamp"]) then
 			local offset = (ply:EyePos() - mv:GetOrigin()) / 2
 			local subt = ply["ClampInvert"]
@@ -38,6 +40,8 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 				ply["ClampInvert"] = nil
 			end
 		end
+		else
+		ply:SetMoveType(MOVETYPE_WALK)
 	end
 end)
 
@@ -178,16 +182,15 @@ function ENT:Think()
 	end
 	
 	if self.DockMode == 4 and IsValid(self.LinkLock) then
-		local cmins, cmaxs = Entity(1):GetCollisionBounds()
+		local cmins = Vector(-16.000000, -16.000000, 0.000000)
+		local cmaxs = Vector(16.000000, 16.000000, 72.000000)
 		local tr = util.TraceHull({
-			start = self:CalcCenterPos(),
-			endpos = self:CalcCenterPos(),
-			mins=cmins,
-			maxs=cmaxs,
+			start = self:CalcCenterPos() - Vector(0,0,cmaxs.z),
+			endpos = self:CalcCenterPos() - Vector(0,0,cmaxs.z),
+			mins=cmins * 2,
+			maxs=cmaxs * 2,
 			filter=function(ent) if ent:IsPlayer() then return true else return false end end
 		})
-		if tr.Hit then
-		end
 			if tr.Hit and !tr.Entity["TravellingBetweenClamps"] and tr.Entity:GetAimVector():Dot(self:CalcForward()) > 0.4 then
 				tr.Entity["TravellingBetweenClamps"] = true
 				tr.Entity["StartClamp"] = self
