@@ -693,10 +693,8 @@ function ENT:Link(pod)
 end
 
 function ENT:OnRemove()
-	if self.HighEngineSound and self.HighEngineSound.Stop then
+	if self.sound then
 		self.HighEngineSound:Stop()
-	end
-	if self.LowDroneSound and self.LowDroneSound.Stop then
 		self.LowDroneSound:Stop()
 	end	
 	local constrained = self.AllGyroConstraints

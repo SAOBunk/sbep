@@ -9,28 +9,36 @@ ENT.AdminSpawnable	= false
 ENT.Owner			= nil
 ENT.CPL				= nil
 
-ENT.APitch			= 0
-ENT.AYaw			= 0
-ENT.ARoll			= 0
-ENT.AF				= 0
-ENT.AR				= 0
-ENT.AU				= 0
-ENT.MF				= 700
-ENT.MR				= 700
-ENT.MU				= 700
-ENT.MPitch			= 10
-ENT.MYaw			= 10
-ENT.MRoll			= 10
-ENT.MDist			= 35
-ENT.RPitch			= 0
-ENT.RYaw			= 0
-ENT.RRoll			= 0
+ENT.MDist			= 2000000
 
-ENT.CPitch			= 0
-ENT.CYaw			= 0
-ENT.CRoll			= 0
-ENT.CType			= 0
-ENT.ScanDist		= 700
-ENT.DMode			= 1 -- 0 = Disengaging, 1 = Inactive, 2 = Ready to dock, 3 = Attempting to dock, 4 = Docked
-ENT.ClDMode			= 1 -- Used to send the DMode client-side for effects
+ENT.ScanDist		= 2000
+ENT.DockMode			= 1 -- 0 = Disengaging, 1 = Inactive, 2 = Ready to dock, 3 = Attempting to dock, 4 = Docked
+ENT.ClDockMode			= 1 -- Used to send the DMode client-side for effects
 ENT.IsAirLock		= true
+ENT.ConstraintTable = {}
+
+local DCDockType = list.Get( "SBEP_DockingClampModels" )
+local DD = list.Get( "SBEP_DoorControllerModels" )
+
+function ENT:SetupDataTables()
+		self:NetworkVar("Entity", 0, "LinkLock")
+		self:NetworkVar("Int", 1, "DockMode")
+end
+
+function ENT:GetEFPoints()
+	self.EFPoints = DCDockType[self:GetModel()].EfPoints
+end
+function ENT:CalcCenterPos()
+	local pos = self:GetPos()
+	if DCDockType[self:GetModel()].Center then
+		pos = self:GetPos() + DCDockType[self:GetModel()].Center
+	end
+	return pos
+end
+
+function ENT:CalcForward()
+	local dir = DCDockType[self:GetModel()].Forward
+	local ang = dir:Angle()
+	self.Forward = self:LocalToWorldAngles(ang):Forward()
+	return self.Forward
+end

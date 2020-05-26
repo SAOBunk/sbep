@@ -529,25 +529,6 @@ DTT.SmallBridge["Doors"] = {
     "models/smallbridge/panels/sbpaneldockout.mdl"
 }
 
-DTT.SmallBridge["Ramps"] = {
-    "models/smallbridge/ship parts/sblandramp.mdl",
-    "models/smallbridge/ship parts/sblanduramp.mdl",
-    "models/smallbridge/ship parts/sblandrampdw.mdl",
-    "models/smallbridge/ship parts/sblandurampdw.mdl",
-    "models/smallbridge/ship parts/sblandrampdwdh.mdl",
-    "models/smallbridge/ship parts/sblandurampdwdh.mdl"
-}
-
-DTT.MedBridge = {}
-DTT.MedBridge["MedBridge"] = {
-    "models/slyfo/airlock_docksys.mdl"
-}
-
-DTT.SmallBridge["Elevator Small"] = {
-    "models/smallbridge/elevators_small/sbselevb.mdl",
-    "models/smallbridge/elevators_small/sbselevt.mdl"
-}
-
 DTT.PHX = {}
 DTT.PHX["PHX"] = {
     "models/props_phx/construct/metal_wire1x1.mdl",
@@ -559,26 +540,7 @@ for k, v in pairs(DTT) do
 end
 
 local DCMT = {}
-DCMT["models/smallbridge/ship parts/sblandramp.mdl"] = {
-    ALType = "SWSHA",
-    Compatible = { { Type = "SWSHB", AF = 0, AYaw = 180 } },
-    EfPoints = {
-        { vec = Vector(-65, -110, 50), sp = 0 },
-        { vec = Vector(-90, 95, -60), sp = 3 },
-        { vec = Vector(90, 95, -60), sp = 0 },
-        { vec = Vector(65, -110, 50), sp = 1 }
-    }
-}
-DCMT["models/smallbridge/ship parts/sblanduramp.mdl"] = {
-    ALType = "SWSHB",
-    Compatible = { { Type = "SWSHA", AF = 0, AYaw = 180 } },
-    EfPoints = {
-        { vec = Vector(-65, 100, 60), sp = 0 },
-        { vec = Vector(-90, -110, -50), sp = 3 },
-        { vec = Vector(90, -110, -50), sp = 0 },
-        { vec = Vector(65, 100, 60), sp = 1 }
-    }
-}
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/smallbridge/panels/sbpaneldockin.mdl"] = {
     ALType = "PLockA",
@@ -605,17 +567,248 @@ DCMT["models/smallbridge/panels/sbpaneldockout.mdl"] = {
     }
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- DOCKING CLAMPS																      ///
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local DTT = {}
+
+DTT.SmallBridge = {}
+DTT.SmallBridge["Doors"] = {
+    "models/smallbridge/panels/sbpaneldockin.mdl",
+    "models/smallbridge/panels/sbpaneldockout.mdl",
+    "models/smallbridge/panels/sbpaneldoorsquare.mdl",
+    "models/smallbridge/panels/sbpaneldooriris.mdl",
+    "models/smallbridge/panels/sbpaneldoorwide.mdl",
+    "models/smallbridge/panels/sbpaneldoordw.mdl",
+    "models/smallbridge/panels/sbpaneldoorsquaredw.mdl",
+}
+
+DTT.SmallBridge["Ramps"] = {
+    "models/smallbridge/ship parts/sblandramp.mdl",
+    "models/smallbridge/ship parts/sblanduramp.mdl",
+    "models/smallbridge/ship parts/sblandrampdw.mdl",
+    "models/smallbridge/ship parts/sblandurampdw.mdl",
+    "models/smallbridge/ship parts/sblandrampdwdh.mdl",
+    "models/smallbridge/ship parts/sblandurampdwdh.mdl"
+}
+DTT.SmallBridge["Capture"] = {
+    "models/smallbridge/station parts/sbdockcs.mdl",
+}
+
+DTT.MedBridge = {}
+DTT.MedBridge["MedBridge"] = {
+    "models/slyfo/airlock_docksys.mdl",
+	"models/slyfo/slypaneldoor1.mdl",
+	"models/slyfo/capturehull1.mdl"
+
+}
+
+DTT.SmallBridge["Elevator Small"] = {
+    "models/smallbridge/elevators_small/sbselevb.mdl",
+    "models/smallbridge/elevators_small/sbselevt.mdl"
+}
+
+DTT.PHX = {}
+DTT.PHX["PHX"] = {
+    "models/props_phx/construct/metal_wire1x1.mdl",
+    "models/props_phx/construct/metal_wire2x2b.mdl"
+}
+
+DTT.ModBridge = {}
+DTT.ModBridge["ModBridge"] = {
+    "models/cerus/modbridge/misc/doors/door11b.mdl",
+    "models/cerus/modbridge/misc/doors/door11a.mdl",
+    "models/cerus/modbridge/misc/doors/door12b.mdl",
+    "models/cerus/modbridge/misc/doors/door33a.mdl",
+}
+
+for k, v in pairs(DTT) do
+    list.Set("SBEP_DockClampToolModels", k, v)
+end
+
+local DCMT = {}
+DCMT["models/smallbridge/ship parts/sblandramp.mdl"] = {
+    ALType = "SWSHA",
+    Compatible = { { Type = "SWSHB", AF = 0, AYaw = 180 } },
+    EfPoints = {
+        { vec = Vector(-65, -110, 50), sp = 0 },
+        { vec = Vector(-90, 95, -60), sp = 3 },
+        { vec = Vector(90, 95, -60), sp = 0 },
+        { vec = Vector(65, -110, 50), sp = 1 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/smallbridge/ship parts/sblanduramp.mdl"] = {
+    ALType = "SWSHB",
+    Compatible = { { Type = "SWSHA", AF = 0, AYaw = 180 } },
+    EfPoints = {
+        { vec = Vector(-65, 100, 60), sp = 0 },
+        { vec = Vector(-90, -110, -50), sp = 3 },
+        { vec = Vector(90, -110, -50), sp = 0 },
+        { vec = Vector(65, 100, 60), sp = 1 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DCMT["models/smallbridge/panels/sbpaneldockin.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60, -10, 60), sp = 1 },
+        { vec = Vector(-95, -10, 0), sp = 0 },
+        { vec = Vector(-87, -10, -60), sp = 3 },
+        { vec = Vector(87, -10, -60), sp = 0 },
+        { vec = Vector(95, -10, 0), sp = 5 },
+        { vec = Vector(60, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/smallbridge/panels/sbpaneldoorsquare.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60, -10, 60), sp = 1 },
+        { vec = Vector(-95, -10, 0), sp = 0 },
+        { vec = Vector(-87, -10, -60), sp = 3 },
+        { vec = Vector(87, -10, -60), sp = 0 },
+        { vec = Vector(95, -10, 0), sp = 5 },
+        { vec = Vector(60, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+	
+}    
+DCMT["models/smallbridge/panels/sbpaneldooriris.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60, -10, 60), sp = 1 },
+        { vec = Vector(-95, -10, 0), sp = 0 },
+        { vec = Vector(-87, -10, -60), sp = 3 },
+        { vec = Vector(87, -10, -60), sp = 0 },
+        { vec = Vector(95, -10, 0), sp = 5 },
+        { vec = Vector(60, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+
+} 
+DCMT["models/smallbridge/panels/sbpaneldoorwide.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60 - 110, -10, 60), sp = 1 },
+        { vec = Vector(-95 - 110, -10, 0), sp = 0 },
+        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
+        { vec = Vector(87 + 110, -10, -60), sp = 0 },
+        { vec = Vector(95 + 110, -10, 0), sp = 5 },
+        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/smallbridge/panels/sbpaneldoordw.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60 - 110, -10, 60), sp = 1 },
+        { vec = Vector(-95 - 110, -10, 0), sp = 0 },
+        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
+        { vec = Vector(87 + 110, -10, -60), sp = 0 },
+        { vec = Vector(95 + 110, -10, 0), sp = 5 },
+        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/smallbridge/panels/sbpaneldoorsquaredw.mdl"] = {
+    ALType = "PLockA",
+    Compatible = { { Type = "PLockB", AF = -4.65 } },
+    EfPoints = {
+        { vec = Vector(-60 - 110, -10, 60), sp = 1 },
+        { vec = Vector(-95 - 110, -10, 0), sp = 0 },
+        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
+        { vec = Vector(87 + 110, -10, -60), sp = 0 },
+        { vec = Vector(95 + 110, -10, 0), sp = 5 },
+        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/smallbridge/panels/sbpaneldockout.mdl"] = {
+    ALType = "PLockB",
+    Compatible = { { Type = "PLockA", AF = 4.65 } },
+    EfPoints = {
+        { vec = Vector(-60, 10, 60), sp = 0 },
+        { vec = Vector(-95, 10, 0), sp = 2 },
+        { vec = Vector(-87, 10, -60), sp = 0 },
+        { vec = Vector(87, 10, -60), sp = 4 },
+        { vec = Vector(95, 10, 0), sp = 5 },
+        { vec = Vector(60, 10, 60), sp = 6 }
+    },
+	Forward = Vector(1,0,0)
+
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/slyfo/airlock_docksys.mdl"] = {
     ALType = "MedGLB",
     Compatible = { { Type = "MedGLB", AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-70, -30, 125), sp = 0 },
-        { vec = Vector(-190, -30, 60), sp = 5 },
-        { vec = Vector(-195, -30, -115), sp = 0 },
-        { vec = Vector(195, -30, -125), sp = 3 },
-        { vec = Vector(195, -30, 60), sp = 2 },
-        { vec = Vector(70, -30, 125), sp = 1 }
-    }
+        { vec = Vector(-70, -10, 125), sp = 0 },
+        { vec = Vector(-190, -10, 60), sp = 5 },
+        { vec = Vector(-195, -10, -115), sp = 0 },
+        { vec = Vector(195, -10, -125), sp = 3 },
+        { vec = Vector(195, -10, 60), sp = 2 },
+        { vec = Vector(70, -10, 125), sp = 1 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/slyfo/slypaneldoor1.mdl"] = {
+    ALType = "MedGLB",
+    Compatible = { { Type = "MedGLB", AYaw = 180 } },
+    EfPoints = {
+        { vec = Vector(-70, -10, 125 + 55), sp = 0 },
+        { vec = Vector(-190, -10, 60 + 55), sp = 5 },
+        { vec = Vector(-195, -10, -125 + 55), sp = 0 },
+        { vec = Vector(195, -10, -125 + 55), sp = 3 },
+        { vec = Vector(195, -10, 60 + 55), sp = 2 },
+        { vec = Vector(70, -10, 125 + 55), sp = 1 }
+    },
+	Forward = Vector(-1,0,0),
+	Center = Vector(0,0,75)
+
+}
+DCMT["models/slyfo/capturehull1.mdl"] = {
+    ALType = "MedGLB",
+    Compatible = { { Type = "MedGLB", AYaw = 180 } },
+    EfPoints = {
+        { vec = Vector(-77,-50, 120 - 65), sp = 0 },
+        { vec = Vector(77, -50, 120 - 65), sp = 5 },
+        { vec = Vector(77, -50, 8 - 65), sp = 2 },
+		{ vec = Vector(-77, -50, 8 - 65), sp = 3 },
+    },
+	Forward = Vector(1,0,0),
+	Center = Vector(0,-150,65)
+
+}
+DCMT["models/smallbridge/station parts/sbdockcs.mdl"] = {
+    ALType = "MedGLB",
+    Compatible = { { Type = "MedGLB", AYaw = 180 } },
+    EfPoints = {
+		{ vec = Vector(-93, 14, 87), sp = 3 },
+        { vec = Vector(93, 14, 87), sp = 0 },
+		{ vec = Vector(93, 14, -78), sp = 5 },
+        { vec = Vector(-93, 14, -78), sp = 2 },
+    },
+	Forward = Vector(-1,0,0)
+
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/smallbridge/ship parts/sblandrampdw.mdl"] = {
@@ -626,7 +819,9 @@ DCMT["models/smallbridge/ship parts/sblandrampdw.mdl"] = {
         { vec = Vector(-200, 95, -60), sp = 3 },
         { vec = Vector(200, 95, -60), sp = 0 },
         { vec = Vector(175, -110, 50), sp = 1 }
-    }
+    },
+	Forward = Vector(-1,0,0)
+
 }
 DCMT["models/smallbridge/ship parts/sblandurampdw.mdl"] = {
     ALType = "DWSHB",
@@ -636,7 +831,9 @@ DCMT["models/smallbridge/ship parts/sblandurampdw.mdl"] = {
         { vec = Vector(-200, -110, -50), sp = 3 },
         { vec = Vector(200, -110, -50), sp = 0 },
         { vec = Vector(175, 100, 60), sp = 1 }
-    }
+    },
+	Forward = Vector(-1,0,0)
+
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/smallbridge/ship parts/sblandrampdwdh.mdl"] = {
@@ -647,7 +844,9 @@ DCMT["models/smallbridge/ship parts/sblandrampdwdh.mdl"] = {
         { vec = Vector(-200, 90, -60), sp = 3 },
         { vec = Vector(200, 90, -60), sp = 0 },
         { vec = Vector(175, -110, 180), sp = 1 }
-    }
+    },
+	Forward = Vector(-1,0,0)
+
 }
 DCMT["models/smallbridge/ship parts/sblandurampdwdh.mdl"] = {
     ALType = "DWDHB",
@@ -657,7 +856,9 @@ DCMT["models/smallbridge/ship parts/sblandurampdwdh.mdl"] = {
         { vec = Vector(-200, -120, -60), sp = 3 },
         { vec = Vector(200, -120, -60), sp = 0 },
         { vec = Vector(175, 100, 190), sp = 1 }
-    }
+    },
+	Forward = Vector(-1,0,0)
+
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/smallbridge/elevators_small/sbselevb.mdl"] = {
@@ -671,7 +872,9 @@ DCMT["models/smallbridge/elevators_small/sbselevb.mdl"] = {
         { vec = Vector(-60.45, -60.45, 69.75), sp = 0 },
         { vec = Vector(60.45, -60.45, 69.75), sp = 3 },
         { vec = Vector(60.45, 60.45, 69.75), sp = 0 }
-    }
+    },
+	Forward = Vector(0,0,1)
+
 }
 DCMT["models/smallbridge/elevators_small/sbselevt.mdl"] = {
     ALType = "ElevSD",
@@ -684,7 +887,9 @@ DCMT["models/smallbridge/elevators_small/sbselevt.mdl"] = {
         { vec = Vector(-60.45, -60.45, -69.75), sp = 2 },
         { vec = Vector(60.45, -60.45, -69.75), sp = 0 },
         { vec = Vector(60.45, 60.45, -69.75), sp = 4 }
-    }
+    },
+	Forward = Vector(0,0,-1)
+
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DCMT["models/props_phx/construct/metal_wire1x1.mdl"] = {
@@ -695,7 +900,9 @@ DCMT["models/props_phx/construct/metal_wire1x1.mdl"] = {
         { vec = Vector(-20, -20, 8), sp = 2 },
         { vec = Vector(20, -20, 8), sp = 0 },
         { vec = Vector(20, 20, 8), sp = 4 }
-    }
+    },
+	Forward = Vector(0,0,-1)
+
 }
 DCMT["models/props_phx/construct/metal_wire2x2b.mdl"] = {
     ALType = "PHX2x2",
@@ -705,9 +912,61 @@ DCMT["models/props_phx/construct/metal_wire2x2b.mdl"] = {
         { vec = Vector(-44.5, -44.5, 8), sp = 2 },
         { vec = Vector(44.5, -44.5, 8), sp = 0 },
         { vec = Vector(44.5, 44.5, 8), sp = 4 }
-    }
+    },
+	Forward = Vector(0,0,-1)
+
+}
+DCMT["models/cerus/modbridge/misc/doors/door11b.mdl"] = {
+    ALType = "PHX2x2",
+    Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
+    EfPoints = {
+        { vec = Vector(57, -8, 57), sp = 0 },
+        { vec = Vector(-57, -8, 57), sp = 2 },
+        { vec = Vector(-57, -8, -57), sp = 0 },
+        { vec = Vector(57, -8, -57), sp = 4 }
+    },
+	Forward = Vector(-1,0,0)
+
 }
 
+
+DCMT["models/cerus/modbridge/misc/doors/door11a.mdl"] = {
+    ALType = "PHX2x2",
+    Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
+    EfPoints = {
+        { vec = Vector(71, 10, 71), sp = 0 },
+        { vec = Vector(-71, 10, 71), sp = 2 },
+        { vec = Vector(-71, 10, -71), sp = 0 },
+        { vec = Vector(71, 10, -71), sp = 4 }
+    },
+	Forward = Vector(1,0,0)
+
+}
+
+DCMT["models/cerus/modbridge/misc/doors/door12b.mdl"] = {
+    ALType = "PHX2x2",
+    Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
+    EfPoints = {
+        { vec = Vector(132, -10, 57), sp = 0 },
+        { vec = Vector(-132, -10, 57), sp = 2 },
+        { vec = Vector(-132, -10, -57), sp = 0 },
+        { vec = Vector(132, -10, -57), sp = 4 }
+    },
+	Forward = Vector(-1,0,0)
+
+}
+DCMT["models/cerus/modbridge/misc/doors/door33a.mdl"] = {
+    ALType = "PHX2x2",
+    Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
+    EfPoints = {
+        { vec = Vector(220, -220, -10), sp = 0 },
+        { vec = Vector(-220, -220, -10), sp = 2 },
+        { vec = Vector(-220, 220, -10), sp = 0 },
+        { vec = Vector(220, 220, -10), sp = 4 }
+    },
+	Forward = Vector(0,0,-1)
+
+}
 for k, v in pairs(DCMT) do
     list.Set("SBEP_DockingClampModels", k, v)
 end
