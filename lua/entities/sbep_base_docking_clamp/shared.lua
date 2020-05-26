@@ -31,7 +31,7 @@ end
 function ENT:CalcCenterPos()
 	local pos = self:GetPos()
 	if DCDockType[self:GetModel()].Center then
-		pos = self:GetPos() + DCDockType[self:GetModel()].Center
+		pos = self:LocalToWorld(DCDockType[self:GetModel()].Center)
 	end
 	return pos
 end

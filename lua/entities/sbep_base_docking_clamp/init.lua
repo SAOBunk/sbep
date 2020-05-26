@@ -31,17 +31,17 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 					mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"])) - offset)
 					else
 					mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"])) - offset)
-					end			
+					end	
+				mv:SetVelocity(Vector(0,0,0))
 			if CurTime() - ply["ClampStartTime"] > 1 then
 				mv:SetVelocity(Vector(0,0,0))
 				ply["TravellingBetweenClamps"] = false
 				ply["StartClamp"] = nil
 				ply["EndClamp"] = nil
 				ply["ClampInvert"] = nil
+				ply:SetMoveType(MOVETYPE_WALK)
 			end
 		end
-		else
-		ply:SetMoveType(MOVETYPE_WALK)
 	end
 end)
 
@@ -189,6 +189,7 @@ function ENT:Think()
 			endpos = self:CalcCenterPos() - Vector(0,0,cmaxs.z),
 			mins=cmins * 2,
 			maxs=cmaxs * 2,
+			ignoreworld = true,
 			filter=function(ent) if ent:IsPlayer() then return true else return false end end
 		})
 			if tr.Hit and !tr.Entity["TravellingBetweenClamps"] and tr.Entity:GetAimVector():Dot(self:CalcForward()) > 0.4 then
