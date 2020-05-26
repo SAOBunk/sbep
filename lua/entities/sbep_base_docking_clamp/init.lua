@@ -20,7 +20,7 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 				local ang = dir:Angle()
 				local clipdir = ply["StartClamp"]:CalcForward()
 				local clipdir2 = -ply["EndClamp"]:CalcForward()
-				local cplength = 500 * (ply["StartClamp"]:CalcCenterPos():DistToSqr(ply["EndClamp"]:CalcCenterPos()) / ply["StartClamp"].MDist)
+				local cplength = 500
 				local startent = ply["StartClamp"]
 				local endent = ply["EndClamp"]
 					local start = ply["StartClamp"]:CalcCenterPos() - clipdir * 47

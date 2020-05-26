@@ -35,7 +35,7 @@ function ENT:Draw()
 			local dir = -(self:CalcCenterPos() - LinkLock:CalcCenterPos()):GetNormalized()
 			local clipdir = self:CalcForward()
 			local clipdir2 = -LinkLock:CalcForward()
-			local cplength = 700 * (self:GetPos():DistToSqr(LinkLock:GetPos()) / self.MDist)
+			local cplength = 500
 			local start = self:CalcCenterPos() - clipdir * 47
 			local start2 = self:CalcCenterPos() + clipdir * cplength
 			local endpos = LinkLock:CalcCenterPos()
