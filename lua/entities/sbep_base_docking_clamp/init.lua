@@ -140,9 +140,6 @@ function ENT:Think()
 	end
 	if self.DockMode == 2 then
 	
-		local mn, mx = self:WorldSpaceAABB()
-		mn = mn - BoxSize
-		mx = mx + BoxSize
 		local T = ents.FindInSphere(self:CalcCenterPos(), self.ScanDist)
 		local closest
 		local rem = {}
