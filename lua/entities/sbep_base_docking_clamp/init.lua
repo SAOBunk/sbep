@@ -6,51 +6,53 @@ local DCDockType = list.Get( "SBEP_DockingClampModels" )
 local DD = list.Get( "SBEP_DoorControllerModels" )
 
 function Bezier4(P0, P1, P2, P3, Step)
-        return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
+	return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
 end
-
+local succ = Sound("sb/clamp_succ.wav")
 hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 	if IsValid(ply) and ply["TravellingBetweenClamps"] then
+		if ply:GetMoveType() != MOVETYPE_FLY then
+			ply["ClampOldMoveType"] = ply:GetMoveType()
+		end
 		ply:SetMoveType(MOVETYPE_FLY)
 		if IsValid(ply["StartClamp"]) and IsValid(ply["EndClamp"]) then
 			local offset = (ply:EyePos() - mv:GetOrigin()) / 2
 			local subt = ply["ClampInvert"]
 			local dir = (ply["EndClamp"]:CalcCenterPos() - ply["StartClamp"]:CalcCenterPos()):GetNormalized()
-				local LinkLock = ply["EndClamp"]
-				local ang = dir:Angle()
-				local clipdir = ply["StartClamp"]:CalcForward()
-				local clipdir2 = -ply["EndClamp"]:CalcForward()
-				local cplength = 500
-				local startent = ply["StartClamp"]
-				local endent = ply["EndClamp"]
-					local start = ply["StartClamp"]:CalcCenterPos() - clipdir * 47
-					local start2 = ply["StartClamp"]:CalcCenterPos() + clipdir * cplength
-					local endpos = ply["EndClamp"]:CalcCenterPos()
-					local endpos2 = ply["EndClamp"]:CalcCenterPos() - clipdir2 * cplength
-					if subt then
-					mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"])) - offset)
-					else
-					mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"])) - offset)
-					end	
-				mv:SetVelocity(Vector(0,0,0))
+			local LinkLock = ply["EndClamp"]
+			local ang = dir:Angle()
+			local clipdir = ply["StartClamp"]:CalcForward()
+			local clipdir2 = -ply["EndClamp"]:CalcForward()
+			local cplength = 500
+			local startent = ply["StartClamp"]
+			local endent = ply["EndClamp"]
+			local start = ply["StartClamp"]:CalcCenterPos() - clipdir * 47
+			local start2 = ply["StartClamp"]:CalcCenterPos() + clipdir * cplength
+			local endpos = ply["EndClamp"]:CalcCenterPos()
+			local endpos2 = ply["EndClamp"]:CalcCenterPos() - clipdir2 * cplength
+			if subt then
+				mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"])) - offset)
+				else
+				mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"])) - offset)
+			end	
+			mv:SetVelocity(Vector(0,0,0))
 			if CurTime() - ply["ClampStartTime"] > 1 then
 				mv:SetVelocity(Vector(0,0,0))
 				ply["TravellingBetweenClamps"] = false
 				ply["StartClamp"] = nil
 				ply["EndClamp"] = nil
 				ply["ClampInvert"] = nil
-				ply:SetMoveType(MOVETYPE_WALK)
+				ply:SetMoveType(ply["ClampOldMoveType"])
 			end
 		end
 	end
 end)
-
 function ENT:Initialize()
 	self.Entity:PhysicsInit( SOLID_VPHYSICS )
 	self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
 	self.Entity:SetSolid( SOLID_VPHYSICS )
 	self.Entity:SetUseType( SIMPLE_USE )
-	self.Inputs = Wire_CreateInputs( self.Entity, { "Dock", "UndockDelay" } )
+	self.Inputs = Wire_CreateInputs( self.Entity, { "Dock", "UndockDelay", "ClampOverride [ENTITY]" } )
 	self.Outputs = Wire_CreateOutputs( self.Entity, { "Status" })
 	self:SetDockMode( self.DockMode )
 	local phys = self.Entity:GetPhysicsObject()
@@ -66,6 +68,11 @@ function ENT:Initialize()
 	self.Usable = true
 	self:GetEFPoints()
 	self:CalcCenterPos()
+	if SC then
+		local bmins, bmaxs = self:GetModelBounds()
+		local sizemult = bmins:Distance(bmaxs)/1425
+		self.Flowrate = math.Round(500 * sizemult)
+	end
 end
 
 function ENT:TriggerInput(iname, value)		
@@ -73,20 +80,20 @@ function ENT:TriggerInput(iname, value)
 		if (value > 0) then
 			self.DockMode = 2
 			self.Entity:EmitSound("Buttons.snd1")
-		else
+			else
 			self.Entity:EmitSound("Buttons.snd19")
 			if self.UDD then
 				self.DockMode = 0
 				self.DockTime = CurTime() + 2
-			else
+				else
 				self.DockMode = 1
 				self:Disengage()
 			end			
 		end
-	elseif (iname == "UndockDelay") then
+		elseif (iname == "UndockDelay") then
 		if (value > 0) then
 			self.UDD = true
-		else
+			else
 			self.UDD = false
 		end
 	end
@@ -99,10 +106,10 @@ function ENT:AddDockDoor()
 	self.Doors = self.Doors or {}
 	for n,Door in ipairs( Data ) do
 		local D = ents.Create( "sbep_base_door" )
-			D:Spawn()
-			D:Initialize()
-			if CPPI and self.CPPISetOwner then D:CPPISetOwner( self:CPPIGetOwner() ) end
-			local ct = D:SetDoorType( Door.type )
+		D:Spawn()
+		D:Initialize()
+		if CPPI and self.CPPISetOwner then D:CPPISetOwner( self:CPPIGetOwner() ) end
+		local ct = D:SetDoorType( Door.type )
 		D:Attach( self.Entity , Door.V , Door.A )
 		table.insert( self.Doors , D )
 	end
@@ -112,24 +119,24 @@ function ENT:SetDockType( strType )
 	if !strType then return false end
 	local DockType = DCDockType[ string.lower( self.Entity:GetModel() ) ]
 	if !DockType then return false end
-
+	
 	self.ALType  = strType
 	self.Entity:SetName( strType )
 	self.CompatibleLocks = DockType.Compatible
 end
 function ENT:Think()
+	
 	if self.Doors then
 		if self.DockMode == 4 then
 			for m,n in ipairs( self.Doors ) do
 				n.OpenTrigger = true
 			end
-		else
+			else
 			for m,n in ipairs( self.Doors ) do
 				n.OpenTrigger = false
 			end
 		end
 	end
-	
 	if self.DockMode == 0 then
 		if self.DockTime > CurTime() then
 			self:Disengage()
@@ -143,33 +150,36 @@ function ENT:Think()
 		self.ConstraintDelay = CurTime() + 5
 	end
 	if self.DockMode == 2 then
-	
-		local T = ents.FindInSphere(self:CalcCenterPos(), self.ScanDist)
-		local closest
-		local rem = {}
-		for k,v in pairs(T) do
-			if v.IsAirLock then
-				for i,j in pairs(self.ConstraintTable) do
-					if j == v then table.insert(rem, j) end
-				end
-			end
-		end
-		for k,v in pairs(rem) do
-			table.RemoveByValue(T, v)
-		end
-		for _,i in pairs( T ) do
-		
-			if( IsValid(i) and i ~= self and i.IsAirLock and i.DockMode == 2) then
-				if !(table.HasValue(self.ConstraintTable, i) or (IsValid(self:GetParent()) and self:GetParent() == i:GetParent())) then
-					closest = closest or i
-					if self:GetPos():DistToSqr(i:GetPos()) <= self:GetPos():DistToSqr(closest:GetPos()) then
-						closest = i
+		if !IsValid(self.Inputs.ClampOverride.Value) then
+			local T = ents.FindInSphere(self:CalcCenterPos(), self.ScanDist)
+			local closest
+			local rem = {}
+			for k,v in pairs(T) do
+				if v.IsAirLock then
+					for i,j in pairs(self.ConstraintTable) do
+						if j == v then table.insert(rem, j) end
 					end
 				end
 			end
-		end
-		if IsValid(closest) then
-			self:BeginDock(closest)
+			for k,v in pairs(rem) do
+				table.RemoveByValue(T, v)
+			end
+			for _,i in pairs( T ) do
+				
+				if( IsValid(i) and i ~= self and i.IsAirLock and i.DockMode == 2) then
+					if !(table.HasValue(self.ConstraintTable, i) or (IsValid(self:GetParent()) and self:GetParent() == i:GetParent())) then
+						closest = closest or i
+						if self:GetPos():DistToSqr(i:GetPos()) <= self:GetPos():DistToSqr(closest:GetPos()) then
+							closest = i
+						end
+					end
+				end
+			end
+			if IsValid(closest) then
+				self:BeginDock(closest)
+			end
+			elseif !IsValid(self.Inputs.ClampOverride.Value.LinkLock) then
+			self:BeginDock(self.Inputs.ClampOverride.Value)
 		end
 	end
 	
@@ -192,19 +202,24 @@ function ENT:Think()
 			ignoreworld = true,
 			filter=function(ent) if ent:IsPlayer() then return true else return false end end
 		})
-			if tr.Hit and !tr.Entity["TravellingBetweenClamps"] and tr.Entity:GetAimVector():Dot(self:CalcForward()) > 0.4 then
-				tr.Entity["TravellingBetweenClamps"] = true
-				tr.Entity["StartClamp"] = self
-				tr.Entity["EndClamp"] = self.LinkLock
-				tr.Entity["ClampStartTime"] = CurTime()
-				if tr.Entity["StartClamp"]:EntIndex() > tr.Entity["EndClamp"]:EntIndex() then
-					tr.Entity["StartClamp"] = self.LinkLock
-					tr.Entity["EndClamp"] = self
-					tr.Entity["ClampInvert"] = 1
-				end
+		if tr.Hit and !tr.Entity["TravellingBetweenClamps"] and tr.Entity:GetAimVector():Dot(self:CalcForward()) > 0.4 then
+			tr.Entity["TravellingBetweenClamps"] = true
+			tr.Entity["StartClamp"] = self
+			tr.Entity["EndClamp"] = self.LinkLock
+			tr.Entity["ClampStartTime"] = CurTime()
+			if tr.Entity["StartClamp"]:EntIndex() > tr.Entity["EndClamp"]:EntIndex() then
+				tr.Entity["StartClamp"] = self.LinkLock
+				tr.Entity["EndClamp"] = self
+				tr.Entity["ClampInvert"] = 1
 			end
+			tr.Entity:EmitSound(succ)
+		end
 	end
 	if self.DockMode == 4 and IsValid(self.LinkLock) and self:WorldSpaceCenter():DistToSqr(self.LinkLock:WorldSpaceCenter()) > self.MDist then
+		self.DockMode = 2
+		self:Disengage()
+	end
+	if self.LinkLock and !self.LinkLock:IsValid() then
 		self.DockMode = 2
 		self:Disengage()
 	end
@@ -214,10 +229,34 @@ function ENT:Think()
 		self.ClDockMode = self.DockMode
 	end
 	self:SetDockMode(self.DockMode)
+	if SC then
+		self:BalanceShields()
+		self:BalanceCap()
+	end
 	self:NextThink(CurTime())
 	return true
 end
-
+function ENT:BalanceShields()
+	if IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock) and IsValid(self.LinkLock.SC_CoreEnt) then
+		if self.SC_CoreEnt:GetShieldAmount() < self.SC_CoreEnt:GetShieldMax() then
+			if self.LinkLock.SC_CoreEnt:GetShieldAmount() > self.SC_CoreEnt:GetShieldAmount() then
+				self.SC_CoreEnt:SetShieldAmount(self.SC_CoreEnt:GetShieldAmount() + math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, self.Flowrate))
+				self.LinkLock.SC_CoreEnt:SetShieldAmount(self.LinkLock.SC_CoreEnt:GetShieldAmount() - math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, self.Flowrate))
+			end
+		end
+		
+	end
+end
+function ENT:BalanceCap()
+	if IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock) and IsValid(self.LinkLock.SC_CoreEnt) then
+		if self.SC_CoreEnt:GetAmount("Energy") < self.SC_CoreEnt:GetMaxAmount("Energy") then
+			if self.LinkLock.SC_CoreEnt:GetAmount("Energy") > self.SC_CoreEnt:GetAmount("Energy") then
+				self.SC_CoreEnt:SetAmount("Energy", self.SC_CoreEnt:GetAmount("Energy") + math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy") - self.SC_CoreEnt:GetAmount("Energy"), 1, self.Flowrate))
+				self.LinkLock.SC_CoreEnt:SetAmount("Energy", self.LinkLock.SC_CoreEnt:GetAmount("Energy") - math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy")  - self.SC_CoreEnt:GetAmount("Energy"), 1, self.Flowrate))
+			end
+		end
+	end
+end
 function ENT:BeginDock(DockTo)
 	local TypeMatch = true
 	self.LinkLock = DockTo
@@ -230,7 +269,7 @@ function ENT:BeginDock(DockTo)
 end
 
 function ENT:PhysicsCollide( data, physobj )
-
+	
 end
 
 function ENT:OnTakeDamage( dmginfo )
@@ -238,11 +277,11 @@ function ENT:OnTakeDamage( dmginfo )
 end
 
 function ENT:Touch( ent )
-
+	
 end
 
 function ENT:OnRemove()
-
+	
 end
 
 function ENT:Use( activator, caller )
@@ -250,12 +289,12 @@ function ENT:Use( activator, caller )
 		if (self.DockMode < 2) then
 			self.DockMode = 2		
 			self.Entity:EmitSound("Buttons.snd1")
-		else
+			else
 			self.Entity:EmitSound("Buttons.snd19")
 			if self.UDD then
 				self.DockMode = 0
 				self.DockTime = CurTime() + 2		
-			else
+				else
 				self.DockMode = 1
 				self:Disengage()
 			end
@@ -289,7 +328,7 @@ function ENT:PreEntityCopy()
 			end
 		end
 	end
-
+	
 	
 	if WireAddon then
 		DI.WireData = WireLib.BuildDupeInfo( self.Entity )
@@ -306,7 +345,7 @@ end
 duplicator.RegisterEntityModifier( "SBEPDCI" , function() end)
 
 function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
-
+	
 	local DI = Ent.EntityMods.SBEPDCI
 	
 	if !DI then return end
@@ -318,7 +357,7 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 		self.Entity:SetNetworkedVector("EfVec"..k, Vector( v.x , v.y , v.z ) )
 		self.Entity:SetNetworkedInt("EfSp"..k, v.sp)
 	end
-
+	
 	self.Doors = {}
 	for n,I in ipairs( DI.Doors ) do
 		self.Doors[n] = CreatedEntities[I]
@@ -334,7 +373,7 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 	if DI.WireData then
 		WireLib.ApplyDupeInfo( pl, Ent, DI.WireData, function(id) return CreatedEntities[id] end)
 	end
-
+	
 end
 
 function ENT:Disengage()

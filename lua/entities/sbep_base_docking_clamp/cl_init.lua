@@ -3,11 +3,12 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 
 local DCDockType = list.Get( "SBEP_DockingClampModels" )
 local DD = list.Get( "SBEP_DoorControllerModels" )
+
 function ENT:Initialize()
 	self.CMat = Material( "cable/blue_elec" )
+	self.WMat = Material( "trails/smoke" )
 	self.SMat = Material( "sprites/light_glow02_add" )
 	self.STime = CurTime()
-	self.EfPoints = {}
 	self.Model = ClientsideModel("models/spacebuild/s1t1.mdl")
 	self.Model:SetNoDraw(true)
 	local rmins, rmaxs = self:GetModelRenderBounds()
@@ -48,6 +49,7 @@ function ENT:Draw()
 				self.Model:SetupBones()
 				self.Model:DrawModel()
 			end
+			
 		end
 		else
 		if !self.EfError then
@@ -58,26 +60,28 @@ function ENT:Draw()
 	
 end
 function ENT:DrawTranslucent()
-	
 	if self.STime > CurTime() + 5 then return end
 	if self.EfPoints and table.getn(self.EfPoints) > 0 then
 		local DockMode = self:GetDockMode()
+		local LinkLock = self:GetLinkLock()
 		
 		if DockMode == 2 or DockMode == 3 or DockMode == 4 then
-			for x = 1,table.getn(self.EfPoints),1 do
+			local ef = table.Copy(self.EfPoints)
+			
+			for x = 1,table.getn(ef),1 do
+				local offset = self.Entity:GetRight() * ef[x].vec.x + self.Entity:GetForward() * ef[x].vec.y + self.Entity:GetUp() * ef[x].vec.z
 				render.SetMaterial( self.SMat )	
 				local color = Color( 100, 100, 150, 100 )
-				render.DrawSprite( self.Entity:CalcCenterPos() + self.Entity:GetRight() * self.EfPoints[x].x + self.Entity:GetForward() * self.EfPoints[x].y + self.Entity:GetUp() * self.EfPoints[x].z, 20, 20, color )
+				render.DrawSprite( self.Entity:CalcCenterPos() + offset, 20, 20, color )
 				
 				local NP = 0
-				if x < table.getn(self.EfPoints) then
+				if x < table.getn(ef) then
 					NP = x + 1
 					else
 					NP = 1
 				end
 				local Sz = 10
 				if DockMode == 3 then Sz = 5 end
-				
 				render.SetMaterial( self.CMat )
 				local Scroll = 0
 				if DockMode == 2 then
@@ -85,7 +89,35 @@ function ENT:DrawTranslucent()
 					else
 					Scroll = math.fmod(CurTime()*64,128)
 				end
-				render.DrawBeam( self.Entity:CalcCenterPos() + self.Entity:GetRight() * self.EfPoints[x].x + self.Entity:GetForward() * self.EfPoints[x].y + self.Entity:GetUp() * self.EfPoints[x].z, self.Entity:CalcCenterPos() + self.Entity:GetRight() * self.EfPoints[NP].x + self.Entity:GetForward() * self.EfPoints[NP].y + self.Entity:GetUp() * self.EfPoints[NP].z, Sz, Scroll + 10, Scroll, Color( 255, 255, 255, 255 ) ) 
+				render.DrawBeam( self.Entity:CalcCenterPos() + self.Entity:GetRight() * ef[x].vec.x + self.Entity:GetForward() * ef[x].vec.y + self.Entity:GetUp() * ef[x].vec.z, self.Entity:CalcCenterPos() + self.Entity:GetRight() * ef[NP].vec.x + self.Entity:GetForward() * ef[NP].vec.y + self.Entity:GetUp() * ef[NP].vec.z, Sz, Scroll + 10, Scroll, Color( 255, 255, 255, 255 ) ) 
+			end
+			if IsValid(LinkLock) then
+				table.sort(ef,  function(a, b) return a.sp > b.sp end)
+				for x = 1,table.getn(ef),1 do
+					local offset = self.Entity:GetRight() * ef[x].vec.x + self.Entity:GetForward() * ef[x].vec.y + self.Entity:GetUp() * ef[x].vec.z
+					local ef2 = table.Copy(LinkLock.EfPoints)
+					
+					table.sort(ef2,  function(a, b) return a.sp > b.sp end)
+					if DockMode == 4 and LinkLock and LinkLock:IsValid() and self:EntIndex() < LinkLock:EntIndex() then
+						if ef2[5 - x] and ef2[5 - x].sp != 0 then
+							local offset2 = LinkLock.Entity:GetRight() * ef2[5 - x].vec.x + LinkLock.Entity:GetForward() * ef2[5 - x].vec.y + LinkLock.Entity:GetUp() * ef2[5 - x].vec.z
+							local clipdir = self:CalcForward()
+							local clipdir2 = -LinkLock:CalcForward()
+							local cplength = 500
+							local start = offset + self:CalcCenterPos()
+							local start2 = offset + self:CalcCenterPos() + clipdir * cplength
+							local endpos = offset2 + LinkLock:CalcCenterPos()
+							local endpos2 = offset2 + LinkLock:CalcCenterPos() - clipdir2 * cplength
+							local Scroll = math.fmod(CurTime() * 64,128)
+							render.SetMaterial( self.CMat )
+							render.DrawBeam( offset + self:CalcCenterPos(), Bezier4(start, start2, endpos2, endpos,(0.1)), 15, Scroll + 10, Scroll,Color( 255, 255, 255, 15 ) ) 
+							for i=2, 9 do
+								render.DrawBeam( Bezier4(start, start2, endpos2, endpos, i / 10), Bezier4(start, start2, endpos2, endpos,((i - 1) / 10)), 15, Scroll + 10, Scroll,Color( 255, 255, 255, 15 ) ) 
+							end
+							render.DrawBeam( offset2 + LinkLock:CalcCenterPos(), Bezier4(start, start2, endpos2, endpos,(0.9)), 15, Scroll + 10, Scroll,Color( 255, 255, 255, 15 ) ) 
+						end
+					end
+				end
 			end
 		end
 		
@@ -98,16 +130,7 @@ function ENT:DrawTranslucent()
 end
 
 function ENT:Think()
-	for i = 1,10 do
-		local Vec = self.Entity:GetNetworkedVector("EfVec"..i)
-		if Vec and Vec ~= Vector(0,0,0) then
-			self.EfPoints[i] = {}
-			self.EfPoints[i].x = Vec.x
-			self.EfPoints[i].y = Vec.y
-			self.EfPoints[i].z = Vec.z
-			self.EfPoints[i].sp = self.Entity:GetNetworkedInt("EfSp"..i) or 0
-		end
-	end
+	
 end
 function ENT:OnRemove()
 	if IsValid(self.Model) then

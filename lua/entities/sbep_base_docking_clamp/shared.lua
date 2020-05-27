@@ -27,6 +27,7 @@ end
 
 function ENT:GetEFPoints()
 	self.EFPoints = DCDockType[self:GetModel()].EfPoints
+	self.EfPoints = DCDockType[self:GetModel()].EfPoints
 end
 function ENT:CalcCenterPos()
 	local pos = self:GetPos()
@@ -41,4 +42,23 @@ function ENT:CalcForward()
 	local ang = dir:Angle()
 	self.Forward = self:LocalToWorldAngles(ang):Forward()
 	return self.Forward
+end
+
+if SC then
+	function ENT:FindAllConnectedShips(cores, clamps)
+		local connectedShips = cores or {}
+		if IsValid(self.LinkLock) and IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock.SC_CoreEnt) then
+			local checkedclamps = clamps or {self}
+			connectedShips[tostring(self.SC_CoreEnt:EntIndex())] = self.SC_CoreEnt
+			table.insert(checkedclamps, self)
+			if IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock.SC_CoreEnt) then
+				for k,v in pairs(self.LinkLock.SC_CoreEnt.ConWeldTable) do
+					if v.IsAirLock and !table.HasValue(checkedclamps, v) then
+						table.Merge(connectedShips, v:FindAllConnectedShips(connectedShips, checkedclamps))
+					end
+				end
+			end
+		end
+		return connectedShips
+	end
 end

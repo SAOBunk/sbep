@@ -636,10 +636,10 @@ DCMT["models/smallbridge/ship parts/sblandramp.mdl"] = {
     ALType = "SWSHA",
     Compatible = { { Type = "SWSHB", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-65, -110, 50), sp = 0 },
-        { vec = Vector(-90, 95, -60), sp = 3 },
-        { vec = Vector(90, 95, -60), sp = 0 },
-        { vec = Vector(65, -110, 50), sp = 1 }
+        { vec = Vector(-65, -110, 50), sp = 1 },
+        { vec = Vector(-90, 95, -60), sp = 2 },
+        { vec = Vector(90, 95, -60), sp = 3 },
+        { vec = Vector(65, -110, 50), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -648,10 +648,10 @@ DCMT["models/smallbridge/ship parts/sblanduramp.mdl"] = {
     ALType = "SWSHB",
     Compatible = { { Type = "SWSHA", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-65, 100, 60), sp = 0 },
-        { vec = Vector(-90, -110, -50), sp = 3 },
-        { vec = Vector(90, -110, -50), sp = 0 },
-        { vec = Vector(65, 100, 60), sp = 1 }
+        { vec = Vector(-65, 100, 60), sp = 1 },
+        { vec = Vector(-90, -110, -50), sp = 2 },
+        { vec = Vector(90, -110, -50), sp = 3 },
+        { vec = Vector(65, 100, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -663,10 +663,10 @@ DCMT["models/smallbridge/panels/sbpaneldockin.mdl"] = {
     EfPoints = {
         { vec = Vector(-60, -10, 60), sp = 1 },
         { vec = Vector(-95, -10, 0), sp = 0 },
-        { vec = Vector(-87, -10, -60), sp = 3 },
-        { vec = Vector(87, -10, -60), sp = 0 },
-        { vec = Vector(95, -10, 0), sp = 5 },
-        { vec = Vector(60, -10, 60), sp = 0 }
+        { vec = Vector(-87, -10, -60), sp = 2 },
+        { vec = Vector(87, -10, -60), sp = 3 },
+        { vec = Vector(95, -10, 0), sp = 0 },
+        { vec = Vector(60, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -677,10 +677,10 @@ DCMT["models/smallbridge/panels/sbpaneldoorsquare.mdl"] = {
     EfPoints = {
         { vec = Vector(-60, -10, 60), sp = 1 },
         { vec = Vector(-95, -10, 0), sp = 0 },
-        { vec = Vector(-87, -10, -60), sp = 3 },
-        { vec = Vector(87, -10, -60), sp = 0 },
-        { vec = Vector(95, -10, 0), sp = 5 },
-        { vec = Vector(60, -10, 60), sp = 0 }
+        { vec = Vector(-87, -10, -60), sp = 2 },
+        { vec = Vector(87, -10, -60), sp = 3 },
+        { vec = Vector(95, -10, 0), sp = 0 },
+        { vec = Vector(60, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 	
@@ -691,10 +691,10 @@ DCMT["models/smallbridge/panels/sbpaneldooriris.mdl"] = {
     EfPoints = {
         { vec = Vector(-60, -10, 60), sp = 1 },
         { vec = Vector(-95, -10, 0), sp = 0 },
-        { vec = Vector(-87, -10, -60), sp = 3 },
-        { vec = Vector(87, -10, -60), sp = 0 },
-        { vec = Vector(95, -10, 0), sp = 5 },
-        { vec = Vector(60, -10, 60), sp = 0 }
+        { vec = Vector(-87, -10, -60), sp = 2 },
+        { vec = Vector(87, -10, -60), sp = 3 },
+        { vec = Vector(95, -10, 0), sp = 0 },
+        { vec = Vector(60, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -705,10 +705,10 @@ DCMT["models/smallbridge/panels/sbpaneldoorwide.mdl"] = {
     EfPoints = {
         { vec = Vector(-60 - 110, -10, 60), sp = 1 },
         { vec = Vector(-95 - 110, -10, 0), sp = 0 },
-        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
-        { vec = Vector(87 + 110, -10, -60), sp = 0 },
-        { vec = Vector(95 + 110, -10, 0), sp = 5 },
-        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+        { vec = Vector(-87 - 110, -10, -60), sp = 2 },
+        { vec = Vector(87 + 110, -10, -60), sp = 3 },
+        { vec = Vector(95 + 110, -10, 0), sp = 0 },
+        { vec = Vector(60 + 110, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -719,10 +719,10 @@ DCMT["models/smallbridge/panels/sbpaneldoordw.mdl"] = {
     EfPoints = {
         { vec = Vector(-60 - 110, -10, 60), sp = 1 },
         { vec = Vector(-95 - 110, -10, 0), sp = 0 },
-        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
-        { vec = Vector(87 + 110, -10, -60), sp = 0 },
-        { vec = Vector(95 + 110, -10, 0), sp = 5 },
-        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+        { vec = Vector(-87 - 110, -10, -60), sp = 2 },
+        { vec = Vector(87 + 110, -10, -60), sp = 3 },
+        { vec = Vector(95 + 110, -10, 0), sp = 0 },
+        { vec = Vector(60 + 110, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -733,10 +733,10 @@ DCMT["models/smallbridge/panels/sbpaneldoorsquaredw.mdl"] = {
     EfPoints = {
         { vec = Vector(-60 - 110, -10, 60), sp = 1 },
         { vec = Vector(-95 - 110, -10, 0), sp = 0 },
-        { vec = Vector(-87 - 110, -10, -60), sp = 3 },
-        { vec = Vector(87 + 110, -10, -60), sp = 0 },
-        { vec = Vector(95 + 110, -10, 0), sp = 5 },
-        { vec = Vector(60 + 110, -10, 60), sp = 0 }
+        { vec = Vector(-87 - 110, -10, -60), sp = 2 },
+        { vec = Vector(87 + 110, -10, -60), sp = 3 },
+        { vec = Vector(95 + 110, -10, 0), sp = 0 },
+        { vec = Vector(60 + 110, -10, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -745,12 +745,12 @@ DCMT["models/smallbridge/panels/sbpaneldockout.mdl"] = {
     ALType = "PLockB",
     Compatible = { { Type = "PLockA", AF = 4.65 } },
     EfPoints = {
-        { vec = Vector(-60, 10, 60), sp = 0 },
-        { vec = Vector(-95, 10, 0), sp = 2 },
-        { vec = Vector(-87, 10, -60), sp = 0 },
-        { vec = Vector(87, 10, -60), sp = 4 },
-        { vec = Vector(95, 10, 0), sp = 5 },
-        { vec = Vector(60, 10, 60), sp = 6 }
+        { vec = Vector(-60, 10, 60), sp = 1 },
+        { vec = Vector(-95, 10, 0), sp = 0 },
+        { vec = Vector(-87, 10, -60), sp = 2 },
+        { vec = Vector(87, 10, -60), sp = 3 },
+        { vec = Vector(95, 10, 0), sp = 0 },
+        { vec = Vector(60, 10, 60), sp = 4 }
     },
 	Forward = Vector(1,0,0)
 
@@ -760,12 +760,12 @@ DCMT["models/slyfo/airlock_docksys.mdl"] = {
     ALType = "MedGLB",
     Compatible = { { Type = "MedGLB", AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-70, -10, 125), sp = 0 },
-        { vec = Vector(-190, -10, 60), sp = 5 },
-        { vec = Vector(-195, -10, -115), sp = 0 },
+        { vec = Vector(-70, -10, 125), sp = 1 },
+        { vec = Vector(-190, -10, 60), sp = 0 },
+        { vec = Vector(-195, -10, -115), sp = 2 },
         { vec = Vector(195, -10, -125), sp = 3 },
-        { vec = Vector(195, -10, 60), sp = 2 },
-        { vec = Vector(70, -10, 125), sp = 1 }
+        { vec = Vector(195, -10, 60), sp = 0 },
+        { vec = Vector(70, -10, 125), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -774,12 +774,12 @@ DCMT["models/slyfo/slypaneldoor1.mdl"] = {
     ALType = "MedGLB",
     Compatible = { { Type = "MedGLB", AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-70, -10, 125 + 55), sp = 0 },
-        { vec = Vector(-190, -10, 60 + 55), sp = 5 },
-        { vec = Vector(-195, -10, -125 + 55), sp = 0 },
+        { vec = Vector(-70, -10, 125 + 55), sp = 1 },
+        { vec = Vector(-190, -10, 60 + 55), sp = 0 },
+        { vec = Vector(-195, -10, -125 + 55), sp = 2 },
         { vec = Vector(195, -10, -125 + 55), sp = 3 },
-        { vec = Vector(195, -10, 60 + 55), sp = 2 },
-        { vec = Vector(70, -10, 125 + 55), sp = 1 }
+        { vec = Vector(195, -10, 60 + 55), sp = 0 },
+        { vec = Vector(70, -10, 125 + 55), sp = 4 }
     },
 	Forward = Vector(-1,0,0),
 	Center = Vector(0,0,75)
@@ -789,23 +789,24 @@ DCMT["models/slyfo/capturehull1.mdl"] = {
     ALType = "MedGLB",
     Compatible = { { Type = "MedGLB", AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-77,-50, 120 - 65), sp = 0 },
-        { vec = Vector(77, -50, 120 - 65), sp = 5 },
-        { vec = Vector(77, -50, 8 - 65), sp = 2 },
-		{ vec = Vector(-77, -50, 8 - 65), sp = 3 },
+		{ vec = Vector(77, 55, 55), sp = 1 },
+		{ vec = Vector(77, 55, -57), sp = 2 },
+		{ vec = Vector(-77, 55, -57), sp = 3 },
+		{ vec = Vector(-77,55, 55), sp = 4 },
     },
 	Forward = Vector(1,0,0),
-	Center = Vector(0,-150,65)
+	Center = Vector(150, 0,65),
+	
 
 }
 DCMT["models/smallbridge/station parts/sbdockcs.mdl"] = {
     ALType = "MedGLB",
     Compatible = { { Type = "MedGLB", AYaw = 180 } },
     EfPoints = {
-		{ vec = Vector(-93, 14, 87), sp = 3 },
-        { vec = Vector(93, 14, 87), sp = 0 },
-		{ vec = Vector(93, 14, -78), sp = 5 },
-        { vec = Vector(-93, 14, -78), sp = 2 },
+		{ vec = Vector(-93, 0, 87), sp = 1 },
+		{ vec = Vector(-93, 0, -78), sp = 2 },
+		{ vec = Vector(93, 0, -78), sp = 3 },
+        { vec = Vector(93, 0, 87), sp = 4 },
     },
 	Forward = Vector(-1,0,0)
 
@@ -815,10 +816,10 @@ DCMT["models/smallbridge/ship parts/sblandrampdw.mdl"] = {
     ALType = "DWSHA",
     Compatible = { { Type = "DWSHB", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-175, -110, 50), sp = 0 },
-        { vec = Vector(-200, 95, -60), sp = 3 },
-        { vec = Vector(200, 95, -60), sp = 0 },
-        { vec = Vector(175, -110, 50), sp = 1 }
+        { vec = Vector(-175, -110, 50), sp = 1 },
+        { vec = Vector(-200, 95, -60), sp = 2 },
+        { vec = Vector(200, 95, -60), sp = 3 },
+        { vec = Vector(175, -110, 50), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -827,10 +828,10 @@ DCMT["models/smallbridge/ship parts/sblandurampdw.mdl"] = {
     ALType = "DWSHB",
     Compatible = { { Type = "DWSHA", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-175, 100, 60), sp = 0 },
-        { vec = Vector(-200, -110, -50), sp = 3 },
-        { vec = Vector(200, -110, -50), sp = 0 },
-        { vec = Vector(175, 100, 60), sp = 1 }
+        { vec = Vector(-175, 100, 60), sp = 1 },
+        { vec = Vector(-200, -110, -50), sp = 2 },
+        { vec = Vector(200, -110, -50), sp = 3 },
+        { vec = Vector(175, 100, 60), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -840,10 +841,10 @@ DCMT["models/smallbridge/ship parts/sblandrampdwdh.mdl"] = {
     ALType = "DWDHA",
     Compatible = { { Type = "DWDHB", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-175, -110, 180), sp = 0 },
-        { vec = Vector(-200, 90, -60), sp = 3 },
-        { vec = Vector(200, 90, -60), sp = 0 },
-        { vec = Vector(175, -110, 180), sp = 1 }
+        { vec = Vector(-175, -110, 180), sp = 1 },
+        { vec = Vector(-200, 90, -60), sp = 2 },
+        { vec = Vector(200, 90, -60), sp = 3 },
+        { vec = Vector(175, -110, 180), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -852,10 +853,10 @@ DCMT["models/smallbridge/ship parts/sblandurampdwdh.mdl"] = {
     ALType = "DWDHB",
     Compatible = { { Type = "DWDHA", AF = 0, AYaw = 180 } },
     EfPoints = {
-        { vec = Vector(-175, 100, 190), sp = 0 },
-        { vec = Vector(-200, -120, -60), sp = 3 },
-        { vec = Vector(200, -120, -60), sp = 0 },
-        { vec = Vector(175, 100, 190), sp = 1 }
+        { vec = Vector(-175, 100, 190), sp = 1 },
+        { vec = Vector(-200, -120, -60), sp = 2 },
+        { vec = Vector(200, -120, -60), sp = 3 },
+        { vec = Vector(175, 100, 190), sp = 4 }
     },
 	Forward = Vector(-1,0,0)
 
@@ -869,9 +870,9 @@ DCMT["models/smallbridge/elevators_small/sbselevb.mdl"] = {
     },
     EfPoints = {
         { vec = Vector(-60.45, 60.45, 69.75), sp = 1 },
-        { vec = Vector(-60.45, -60.45, 69.75), sp = 0 },
+        { vec = Vector(-60.45, -60.45, 69.75), sp = 2 },
         { vec = Vector(60.45, -60.45, 69.75), sp = 3 },
-        { vec = Vector(60.45, 60.45, 69.75), sp = 0 }
+        { vec = Vector(60.45, 60.45, 69.75), sp = 4 }
     },
 	Forward = Vector(0,0,1)
 
@@ -883,9 +884,9 @@ DCMT["models/smallbridge/elevators_small/sbselevt.mdl"] = {
         { Type = "ElevSU", AU = -65.1, RYaw = 90 }
     },
     EfPoints = {
-        { vec = Vector(-60.45, 60.45, -69.75), sp = 0 },
+        { vec = Vector(-60.45, 60.45, -69.75), sp = 1 },
         { vec = Vector(-60.45, -60.45, -69.75), sp = 2 },
-        { vec = Vector(60.45, -60.45, -69.75), sp = 0 },
+        { vec = Vector(60.45, -60.45, -69.75), sp = 3 },
         { vec = Vector(60.45, 60.45, -69.75), sp = 4 }
     },
 	Forward = Vector(0,0,-1)
@@ -896,34 +897,34 @@ DCMT["models/props_phx/construct/metal_wire1x1.mdl"] = {
     ALType = "PHX1x1",
     Compatible = { { Type = "PHX1x1", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(-20, 20, 8), sp = 0 },
+        { vec = Vector(-20, 20, 8), sp = 1 },
         { vec = Vector(-20, -20, 8), sp = 2 },
-        { vec = Vector(20, -20, 8), sp = 0 },
+        { vec = Vector(20, -20, 8), sp = 3 },
         { vec = Vector(20, 20, 8), sp = 4 }
     },
-	Forward = Vector(0,0,-1)
+	Forward = Vector(0,0,1)
 
 }
 DCMT["models/props_phx/construct/metal_wire2x2b.mdl"] = {
     ALType = "PHX2x2",
     Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(-44.5, 44.5, 8), sp = 0 },
+        { vec = Vector(-44.5, 44.5, 8), sp = 1 },
         { vec = Vector(-44.5, -44.5, 8), sp = 2 },
-        { vec = Vector(44.5, -44.5, 8), sp = 0 },
+        { vec = Vector(44.5, -44.5, 8), sp = 3 },
         { vec = Vector(44.5, 44.5, 8), sp = 4 }
     },
-	Forward = Vector(0,0,-1)
+	Forward = Vector(0,0,1)
 
 }
 DCMT["models/cerus/modbridge/misc/doors/door11b.mdl"] = {
     ALType = "PHX2x2",
     Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(57, -8, 57), sp = 0 },
-        { vec = Vector(-57, -8, 57), sp = 2 },
-        { vec = Vector(-57, -8, -57), sp = 0 },
-        { vec = Vector(57, -8, -57), sp = 4 }
+        { vec = Vector(-57, -8, 57), sp = 1 },
+        { vec = Vector(-57, -8, -57), sp = 2 },
+	    { vec = Vector(57, -8, -57), sp = 3 },
+        { vec = Vector(57, -8, 57), sp = 4 },
     },
 	Forward = Vector(-1,0,0)
 
@@ -934,10 +935,10 @@ DCMT["models/cerus/modbridge/misc/doors/door11a.mdl"] = {
     ALType = "PHX2x2",
     Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(71, 10, 71), sp = 0 },
-        { vec = Vector(-71, 10, 71), sp = 2 },
-        { vec = Vector(-71, 10, -71), sp = 0 },
-        { vec = Vector(71, 10, -71), sp = 4 }
+        { vec = Vector(-71, 10, 71), sp = 1 },
+        { vec = Vector(-71, 10, -71), sp = 1 },
+	    { vec = Vector(71, 10, -71), sp = 3 },
+        { vec = Vector(71, 10, 71), sp = 4 },
     },
 	Forward = Vector(1,0,0)
 
@@ -947,10 +948,10 @@ DCMT["models/cerus/modbridge/misc/doors/door12b.mdl"] = {
     ALType = "PHX2x2",
     Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(132, -10, 57), sp = 0 },
-        { vec = Vector(-132, -10, 57), sp = 2 },
-        { vec = Vector(-132, -10, -57), sp = 0 },
-        { vec = Vector(132, -10, -57), sp = 4 }
+        { vec = Vector(-132, -10, 57), sp = 1 },
+        { vec = Vector(-132, -10, -57), sp = 2 },
+	    { vec = Vector(132, -10, -57), sp = 3 },
+        { vec = Vector(132, -10, 57), sp = 4 },
     },
 	Forward = Vector(-1,0,0)
 
@@ -959,10 +960,10 @@ DCMT["models/cerus/modbridge/misc/doors/door33a.mdl"] = {
     ALType = "PHX2x2",
     Compatible = { { Type = "PHX2x2", AU = 6, RYaw = 90, ARoll = 180 } },
     EfPoints = {
-        { vec = Vector(220, -220, -10), sp = 0 },
-        { vec = Vector(-220, -220, -10), sp = 2 },
-        { vec = Vector(-220, 220, -10), sp = 0 },
-        { vec = Vector(220, 220, -10), sp = 4 }
+        { vec = Vector(-220, 220, -10), sp = 1 },
+		{ vec = Vector(-220, -220, -10), sp = 2 },
+        { vec = Vector(220, -220, -10), sp = 3 },
+	    { vec = Vector(220, 220, -10), sp = 4 },
     },
 	Forward = Vector(0,0,-1)
 
