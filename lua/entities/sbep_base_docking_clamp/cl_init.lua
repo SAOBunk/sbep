@@ -22,7 +22,9 @@ function Bezier4(P0, P1, P2, P3, Step)
 	return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
 end
 function ENT:Draw()
-	self.Model = self.Model or ClientsideModel("models/spacebuild/s1t1.mdl", RENDERGROUP_BOTH)
+	if !IsValid(self.Model) then
+		self.Model = ClientsideModel("models/spacebuild/s1t1.mdl", RENDERGROUP_BOTH)
+	end
 	self.Entity:DrawModel()
 	local DockMode = self:GetDockMode()
 	if DockMode == 1 or DockMode == 3 then
