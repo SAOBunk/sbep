@@ -71,7 +71,7 @@ function ENT:Initialize()
 	if SC then
 		local bmins, bmaxs = self:GetModelBounds()
 		local sizemult = bmins:Distance(bmaxs)/1425
-		self.Flowrate = math.Round(500 * sizemult)
+		self.Flowrate = math.Round(10000 * sizemult)
 	end
 end
 
