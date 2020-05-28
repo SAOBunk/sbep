@@ -23,6 +23,7 @@ CategoryTable[1] = {
 					}
 
 TOOL.ClientConVar[ "model" 		] = "models/smallbridge/panels/sbpaneldockin.mdl"
+TOOL.ClientConVar[ "tubemodel" 		] = "models/spacebuild/s1t1.mdl"
 TOOL.ClientConVar[ "allowuse"   ] = 1
 
 if ( SERVER ) then
@@ -48,6 +49,7 @@ function TOOL:LeftClick( tr )
 	if CLIENT then return end
 	local ply = self:GetOwner()
 	local model = ply:GetInfo( "sbep_docking_clamp_model" )
+	local tubemodel = ply:GetInfo( "sbep_docking_clamp_tubemodel" )
 	local Data = DockingClampModels[ string.lower( model ) ]
 	
 	local pos = tr.HitPos
@@ -59,6 +61,7 @@ function TOOL:LeftClick( tr )
 	DockEnt:Spawn()
 	DockEnt:Initialize()
 	DockEnt:Activate()
+	DockEnt:SetTubeModel(tubemodel)
 	if CPPI and DockEnt.CPPISetOwner and IsValid(ply) then DockEnt:CPPISetOwner(ply) end
 		
 	for n,P in pairs( Data.EfPoints ) do
@@ -161,7 +164,8 @@ function TOOL.BuildCPanel( panel )
 	UseCheckBox:SetTextColor(Color(0,0,0,255))
 	UseCheckBox:SetConVar( "sbep_docking_clamp_allowuse" )
 	UseCheckBox:SetValue( GetConVar( "sbep_docking_clamp_allowuse" ):GetBool()  )
-
+	local box = panel:TextEntry( "Model Override", "sbep_docking_clamp_tubemodel") 
+	box:SetValue("models/spacebuild/s1t1.mdl")
 	for Tab,v in pairs( DockClampToolModels ) do
 		for Category, models in pairs( v ) do
 			local catPanel = vgui.Create( "DCollapsibleCategory", panel )

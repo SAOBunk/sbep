@@ -3,13 +3,12 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 
 local DCDockType = list.Get( "SBEP_DockingClampModels" )
 local DD = list.Get( "SBEP_DoorControllerModels" )
-
 function ENT:Initialize()
 	self.CMat = Material( "cable/blue_elec" )
 	self.WMat = Material( "trails/smoke" )
 	self.SMat = Material( "sprites/light_glow02_add" )
 	self.STime = CurTime()
-	self.Model = ClientsideModel("models/spacebuild/s1t1.mdl")
+	self.Model = ClientsideModel(self.mdl)
 	self.Model:SetNoDraw(true)
 	local rmins, rmaxs = self:GetModelRenderBounds()
 	self:SetRenderBounds(rmins * 15, rmaxs * 15)
@@ -17,13 +16,24 @@ function ENT:Initialize()
 	self:CalcCenterPos()
 	self:CalcForward()
 	self.StartTime = CurTime()
+	self.ModelSize = self:FindModelSize()
 end
 function Bezier4(P0, P1, P2, P3, Step)
 	return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
 end
 function ENT:Draw()
+	if self.mdl != self:GetTubeModel() then
+		self.mdl = self:GetTubeModel()
+		if IsValid(self.Model) then
+			self.Model:Remove()
+		end
+		self.Model = ClientsideModel(self.mdl, RENDERGROUP_BOTH)
+		self.ModelSize = self:FindModelSize()
+		self.Model:SetNoDraw(true)
+	end
 	if !IsValid(self.Model) then
-		self.Model = ClientsideModel("models/spacebuild/s1t1.mdl", RENDERGROUP_BOTH)
+		self.Model = ClientsideModel(self.mdl, RENDERGROUP_BOTH)
+		self.Model:SetNoDraw(true)
 	end
 	self.Entity:DrawModel()
 	local DockMode = self:GetDockMode()
@@ -34,16 +44,16 @@ function ENT:Draw()
 		self.StartTime = self.StartTime or CurTime()
 		local scroll = math.min((CurTime() - self.StartTime) * 2, 1)
 		local LinkLock = self:GetLinkLock()
-		if LinkLock and LinkLock:IsValid() and self:EntIndex() < LinkLock:EntIndex() and self:GetPos():DistToSqr(LinkLock:GetPos()) <= self.MDist then
+		if LinkLock and LinkLock:IsValid() and (self.ModelSize < LinkLock.ModelSize or self:EntIndex() > LinkLock:EntIndex()) and self:GetPos():DistToSqr(LinkLock:GetPos()) <= self.MDist then
 			local dir = -(self:CalcCenterPos() - LinkLock:CalcCenterPos()):GetNormalized()
 			local clipdir = self:CalcForward()
 			local clipdir2 = -LinkLock:CalcForward()
 			local cplength = 500
-			local start = self:CalcCenterPos() - clipdir * 47
+			local start = self:CalcCenterPos() - clipdir * self.ModelSize / 2
 			local start2 = self:CalcCenterPos() + clipdir * cplength
-			local endpos = LinkLock:CalcCenterPos()
+			local endpos = LinkLock:CalcCenterPos() + clipdir2 * self.ModelSize / 2
 			local endpos2 = LinkLock:CalcCenterPos() - clipdir2 * cplength
-			local resolution = (self:CalcCenterPos():Distance(LinkLock:CalcCenterPos())) / 70 + 5
+			local resolution = (self:CalcCenterPos():Distance(LinkLock:CalcCenterPos()) + cplength * 2) / self.ModelSize
 			for i=1, resolution * scroll do
 				dir = -(Bezier4(start, start2, endpos2, endpos, (i)/resolution) - Bezier4(start, start2, endpos2, endpos, (i-1)/resolution)):GetNormalized()
 				self.Model:SetPos(LerpVector(scroll, Bezier4(start, start2, endpos2, endpos, (i-2)/resolution), Bezier4(start, start2, endpos2, endpos, (i)/resolution)))
@@ -132,7 +142,7 @@ function ENT:DrawTranslucent()
 end
 
 function ENT:Think()
-	
+	self.MDist = self:GetMDist()
 end
 function ENT:OnRemove()
 	if IsValid(self.Model) then

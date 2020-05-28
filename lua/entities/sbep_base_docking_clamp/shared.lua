@@ -16,13 +16,25 @@ ENT.DockMode			= 1 -- 0 = Disengaging, 1 = Inactive, 2 = Ready to dock, 3 = Atte
 ENT.ClDockMode			= 1 -- Used to send the DMode client-side for effects
 ENT.IsAirLock		= true
 ENT.ConstraintTable = {}
-
+ENT.mdl = Model("models/spacebuild/s1t1.mdl")
 local DCDockType = list.Get( "SBEP_DockingClampModels" )
 local DD = list.Get( "SBEP_DoorControllerModels" )
+
+function ENT:FindModelSize()
+	local cmins, cmaxs = self.Model:GetModelBounds()
+	local dist = cmins:Distance(cmaxs)/2
+	dist = dist * 0.1
+	dist = math.floor(dist)
+	dist = dist * 10
+	dist = math.max(10, dist)
+	return dist
+end
 
 function ENT:SetupDataTables()
 		self:NetworkVar("Entity", 0, "LinkLock")
 		self:NetworkVar("Int", 1, "DockMode")
+		self:NetworkVar("Int", 2, "MDist")
+		self:NetworkVar("String", 3, "TubeModel")
 end
 
 function ENT:GetEFPoints()

@@ -32,12 +32,14 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 			local endpos2 = ply["EndClamp"]:CalcCenterPos() - clipdir2 * cplength
 			if subt then
 				mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"])) - offset)
+				local dir = (Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"])) - Bezier4(start, start2, endpos2, endpos, 1 - (CurTime() - ply["ClampStartTime"]) + 0.17))
+				mv:SetVelocity(dir)
 				else
 				mv:SetOrigin(Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"])) - offset)
+				local dir = (Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"])) - Bezier4(start, start2, endpos2, endpos, (CurTime() - ply["ClampStartTime"]) - 0.17))
+				mv:SetVelocity(dir)
 			end	
-			mv:SetVelocity(Vector(0,0,0))
 			if CurTime() - ply["ClampStartTime"] > 1 then
-				mv:SetVelocity(Vector(0,0,0))
 				ply["TravellingBetweenClamps"] = false
 				ply["StartClamp"] = nil
 				ply["EndClamp"] = nil
@@ -125,7 +127,7 @@ function ENT:SetDockType( strType )
 	self.CompatibleLocks = DockType.Compatible
 end
 function ENT:Think()
-	
+	self.Model = self:GetTubeModel()
 	if self.Doors then
 		if self.DockMode == 4 then
 			for m,n in ipairs( self.Doors ) do
@@ -184,7 +186,7 @@ function ENT:Think()
 	end
 	
 	if self.DockMode == 3 and IsValid(self.LinkLock) then
-		if self:WorldSpaceCenter():DistToSqr(self.LinkLock:WorldSpaceCenter()) <= self.MDist then
+		if self:WorldSpaceCenter():DistToSqr(self.LinkLock:WorldSpaceCenter()) <= math.max(self.MDist, self.LinkLock.MDist) then
 			self.DockMode = 4
 			self.LinkLock.DockMode = 4
 			self.Entity:EmitSound("Building_Teleporter.Ready")
@@ -215,7 +217,7 @@ function ENT:Think()
 			tr.Entity:EmitSound(succ)
 		end
 	end
-	if self.DockMode == 4 and IsValid(self.LinkLock) and self:WorldSpaceCenter():DistToSqr(self.LinkLock:WorldSpaceCenter()) > self.MDist then
+	if self.DockMode == 4 and IsValid(self.LinkLock) and self:WorldSpaceCenter():DistToSqr(self.LinkLock:WorldSpaceCenter()) > math.max(self.MDist, self.LinkLock.MDist) then
 		self.DockMode = 2
 		self:Disengage()
 	end
@@ -232,7 +234,16 @@ function ENT:Think()
 	if SC then
 		self:BalanceShields()
 		self:BalanceCap()
+		if IsValid(self.SC_CoreEnt) then
+			local sigrad = (self.SC_CoreEnt:GetSigRad() * 52.49)
+			self.MDist = math.max((sigrad * sigrad), 2000000)
+			self.ScanDist = sigrad
+			else
+			self.MDist = 2000000
+			self.ScanDist = 2000
+		end
 	end
+	self:SetMDist(self.MDist)
 	self:NextThink(CurTime())
 	return true
 end
