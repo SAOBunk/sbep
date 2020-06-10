@@ -33,7 +33,6 @@ function ENT:Draw()
 	end
 	if !IsValid(self.Model) then
 		self.Model = ClientsideModel(self.mdl, RENDERGROUP_BOTH)
-		self.Model:SetNoDraw(true)
 	end
 	self.Entity:DrawModel()
 	local DockMode = self:GetDockMode()
