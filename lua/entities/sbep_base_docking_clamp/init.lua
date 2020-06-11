@@ -46,6 +46,12 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 				ply["ClampInvert"] = nil
 				ply:SetMoveType(ply["ClampOldMoveType"])
 			end
+			else
+			ply["TravellingBetweenClamps"] = false
+			ply["StartClamp"] = nil
+			ply["EndClamp"] = nil
+			ply["ClampInvert"] = nil
+			ply:SetMoveType(ply["ClampOldMoveType"] or MOVETYPE_WALK)
 		end
 	end
 end)
