@@ -21,7 +21,10 @@ local DCDockType = list.Get( "SBEP_DockingClampModels" )
 local DD = list.Get( "SBEP_DoorControllerModels" )
 
 function ENT:FindModelSize()
-	local cmins, cmaxs = self.Model:GetModelBounds()
+	local oldmodel = self:GetModel()
+	self:SetModel(self.mdl)
+	local cmins, cmaxs = self:GetModelBounds()
+	self:SetModel(oldmodel)
 	local dist = cmins:Distance(cmaxs)/2
 	dist = dist * 0.1
 	dist = math.floor(dist)
@@ -35,6 +38,7 @@ function ENT:SetupDataTables()
 		self:NetworkVar("Int", 1, "DockMode")
 		self:NetworkVar("Int", 2, "MDist")
 		self:NetworkVar("String", 3, "TubeModel")
+		self:NetworkVar("Angle", 4, "Dir")
 end
 
 function ENT:GetEFPoints()

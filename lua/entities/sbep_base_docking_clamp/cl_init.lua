@@ -10,6 +10,7 @@ function ENT:Initialize()
 	self.STime = CurTime()
 	self.Model = ClientsideModel(self.mdl)
 	self.Model:SetNoDraw(true)
+	self.Model:SetParent(self)
 	local rmins, rmaxs = self:GetModelRenderBounds()
 	self:SetRenderBounds(rmins * 15, rmaxs * 15)
 	self:GetEFPoints()
@@ -21,8 +22,18 @@ end
 function Bezier4(P0, P1, P2, P3, Step)
 	return P0 * ( 1 - Step ) ^ 3 + 3 * P1 * Step * ( 1 - Step ) ^ 2 + 3 * P2 * Step ^ 2 * ( 1 - Step ) + Step ^ 3 * P3
 end
+
+local directions = {
+	["Forward"] = Angle(0,0,0),
+	["Back"] = Angle(180,0,0),
+	["Left"] = Angle(0,-90,0),
+	["Right"] = Angle(0,90,0),
+	["Up"] = Angle(90,0,0),
+	["Down"] = Angle(-90,0,0)
+}
+
 function ENT:Draw()
-	if self.mdl != self:GetTubeModel() then
+	if self.mdl != self:GetTubeModel() and self:GetTubeModel() ~= "" then
 		self.mdl = self:GetTubeModel()
 		if IsValid(self.Model) then
 			self.Model:Remove()
@@ -47,7 +58,7 @@ function ENT:Draw()
 			local dir = -(self:CalcCenterPos() - LinkLock:CalcCenterPos()):GetNormalized()
 			local clipdir = self:CalcForward()
 			local clipdir2 = -LinkLock:CalcForward()
-			local cplength = 500
+			local cplength = (self:GetPos() + (self.ModelSize * clipdir)):Distance( LinkLock:GetPos())
 			local start = self:CalcCenterPos() - clipdir * self.ModelSize / 2
 			local start2 = self:CalcCenterPos() + clipdir * cplength
 			local endpos = LinkLock:CalcCenterPos() + clipdir2 * self.ModelSize / 2
@@ -56,17 +67,13 @@ function ENT:Draw()
 			for i=1, resolution * scroll do
 				dir = -(Bezier4(start, start2, endpos2, endpos, (i)/resolution) - Bezier4(start, start2, endpos2, endpos, (i-1)/resolution)):GetNormalized()
 				self.Model:SetPos(LerpVector(scroll, Bezier4(start, start2, endpos2, endpos, (i-2)/resolution), Bezier4(start, start2, endpos2, endpos, (i)/resolution)))
-				self.Model:SetAngles(dir:Angle())
+				self.Model:SetAngles(dir:Angle() + self:GetDir())
 				self.Model:SetupBones()
 				self.Model:DrawModel()
 			end
 			
 		end
-		else
-		if !self.EfError then
-			print("No effect data")
-			self.EfError = true
-		end
+		
 	end
 	
 end
@@ -114,7 +121,7 @@ function ENT:DrawTranslucent()
 							local offset2 = LinkLock.Entity:GetRight() * ef2[5 - x].vec.x + LinkLock.Entity:GetForward() * ef2[5 - x].vec.y + LinkLock.Entity:GetUp() * ef2[5 - x].vec.z
 							local clipdir = self:CalcForward()
 							local clipdir2 = -LinkLock:CalcForward()
-							local cplength = 500
+							local cplength = (self:GetPos() + (self.ModelSize * clipdir)):Distance( LinkLock:GetPos())
 							local start = offset + self:CalcCenterPos()
 							local start2 = offset + self:CalcCenterPos() + clipdir * cplength
 							local endpos = offset2 + LinkLock:CalcCenterPos()

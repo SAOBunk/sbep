@@ -23,7 +23,7 @@ hook.Add("SetupMove", "TeleportBetweenClamps", function(ply, mv, cmd)
 			local ang = dir:Angle()
 			local clipdir = ply["StartClamp"]:CalcForward()
 			local clipdir2 = -ply["EndClamp"]:CalcForward()
-			local cplength = 500
+			local cplength = (ply["StartClamp"]:GetPos() + (ply["StartClamp"].ModelSize * clipdir)):Distance( ply["EndClamp"]:GetPos())
 			local startent = ply["StartClamp"]
 			local endent = ply["EndClamp"]
 			local start = ply["StartClamp"]:CalcCenterPos() - clipdir * 47
@@ -81,14 +81,15 @@ function ENT:Initialize()
 		local sizemult = bmins:Distance(bmaxs)/1425
 		self.Flowrate = math.Round(10000 * sizemult)
 	end
+	self.ModelSize = self:FindModelSize()
 end
 
 function ENT:TriggerInput(iname, value)		
 	if (iname == "Dock") then
-		if (value > 0) then
+		if (value > 0) and self.DockMode ~= 2 then
 			self.DockMode = 2
 			self.Entity:EmitSound("Buttons.snd1")
-			else
+			elseif value <= 0 and self.DockMode ~= 0 and self.DockMode ~= 1 then
 			self.Entity:EmitSound("Buttons.snd19")
 			if self.UDD then
 				self.DockMode = 0
@@ -132,8 +133,19 @@ function ENT:SetDockType( strType )
 	self.Entity:SetName( strType )
 	self.CompatibleLocks = DockType.Compatible
 end
+local directions = {
+	["Forward"] = Angle(0,0,0),
+	["Back"] = Angle(180,0,0),
+	["Left"] = Angle(0,-90,0),
+	["Right"] = Angle(0,90,0),
+	["Up"] = Angle(90,0,0),
+	["Down"] = Angle(-90,0,0)
+}
 function ENT:Think()
 	self.Model = self:GetTubeModel()
+	if self.Direction then
+		self:SetDir(directions[self.Direction])
+	end
 	if self.Doors then
 		if self.DockMode == 4 then
 			for m,n in ipairs( self.Doors ) do
@@ -173,8 +185,7 @@ function ENT:Think()
 				table.RemoveByValue(T, v)
 			end
 			for _,i in pairs( T ) do
-				
-				if( IsValid(i) and i ~= self and i.IsAirLock and i.DockMode == 2) then
+				if( IsValid(i) and i ~= self and i.IsAirLock and i.DockMode == 2 and !IsValid(i.Inputs.ClampOverride.Value)) then
 					if !(table.HasValue(self.ConstraintTable, i) or (IsValid(self:GetParent()) and self:GetParent() == i:GetParent())) then
 						closest = closest or i
 						if self:GetPos():DistToSqr(i:GetPos()) <= self:GetPos():DistToSqr(closest:GetPos()) then
@@ -186,7 +197,7 @@ function ENT:Think()
 			if IsValid(closest) then
 				self:BeginDock(closest)
 			end
-			elseif !IsValid(self.Inputs.ClampOverride.Value.LinkLock) then
+			elseif !IsValid(self.Inputs.ClampOverride.Value.LinkLock) and self.Inputs.ClampOverride.Value.DockMode == 2 then
 			self:BeginDock(self.Inputs.ClampOverride.Value)
 		end
 	end

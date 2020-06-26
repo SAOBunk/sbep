@@ -10,7 +10,7 @@ local DockClampToolModels = list.Get( "SBEP_DockClampToolModels" )
 if CLIENT then
 	language.Add( "Tool.sbep_docking_clamp.name"	, "SBEP Docking Clamp Tool" 						)
 	language.Add( "Tool.sbep_docking_clamp.desc"	, "Create an SBEP docking clamp."					)
-	language.Add( "Tool.sbep_docking_clamp.0"		, "Left-click to spawn a docking clamp, or right-click an existing clamp to spawn a counterpart."	)
+	language.Add( "Tool.sbep_docking_clamp.0"		, "Left-click to spawn a docking clamp."	)
 	language.Add( "undone_SBEP Docking Clamp"		, "Undone SBEP Docking Clamp"						)
 end
 
@@ -25,6 +25,7 @@ CategoryTable[1] = {
 TOOL.ClientConVar[ "model" 		] = "models/smallbridge/panels/sbpaneldockin.mdl"
 TOOL.ClientConVar[ "tubemodel" 		] = "models/spacebuild/s1t1.mdl"
 TOOL.ClientConVar[ "allowuse"   ] = 1
+TOOL.ClientConVar[ "direction"   ] = "Forward"
 
 if ( SERVER ) then
 
@@ -71,6 +72,7 @@ function TOOL:LeftClick( tr )
 	
 	DockEnt:SetPos( pos - Vector(0,0,DockEnt:OBBMins().z) )
 	DockEnt.Usable = ply:GetInfoNum( "sbep_docking_clamp_allowuse", 1 ) == 1
+	DockEnt.Direction = ply:GetInfo( "sbep_docking_clamp_direction" )
 	
 	DockEnt:AddDockDoor()
 	
@@ -89,65 +91,7 @@ end
 
 function TOOL:RightClick( tr )
 
-	if CLIENT then return end
-	if !tr.Hit or !tr.Entity or !tr.Entity:IsValid() then return end
-	local dock = tr.Entity
-	local class = dock:GetClass()
-	local ply = self:GetOwner()
 	
-	if class == "sbep_base_docking_clamp" then
-		local type = dock.ALType
-		for model,data in pairs( DockingClampModels ) do
-			local check = false
-			for i,T in ipairs( data.Compatible ) do
-				if type == T.Type then
-					check = i
-					break
-				end
-			end
-			if check then
-				local pos = dock:GetPos()
-				local ang = dock:GetAngles()
-				
-				local DockEnt = ents.Create( "sbep_base_docking_clamp" )	
-					DockEnt.SPL = ply
-					DockEnt:SetModel( model )
-					DockEnt:SetDockType( data.ALType )
-					DockEnt.Usable = dock.Usable
-				DockEnt:Spawn()
-				DockEnt:Initialize()
-				DockEnt:Activate()
-				if CPPI and DockEnt.CPPISetOwner and IsValid(ply) then DockEnt:CPPISetOwner(ply) end
-					
-				for n,P in pairs( data.EfPoints ) do
-					DockEnt:SetNetworkedVector("EfVec"..n, P.vec)
-					DockEnt:SetNetworkedInt("EfSp"..n, P.sp)
-				end
-				
-				DockEnt:SetPos( Vector(0,-50,100) + pos - Vector(0,0,DockEnt:OBBMins().z) )
-				DockEnt:SetAngles( ang + Angle( 0, data.Compatible[ check ].AYaw or 0, 0 ) )
-				
-				DockEnt:AddDockDoor()
-				
-				dock.DMode = 2
-				DockEnt.DMode = 2
-				
-				undo.Create("SBEP Docking Clamp")
-					undo.AddEntity( DockEnt )
-					if DockEnt.Doors then
-						for _,door in ipairs( DockEnt.Doors ) do
-							undo.AddEntity( door )
-						end
-					end
-					undo.SetPlayer( ply )
-				undo.Finish()
-				
-				return true
-			end
-		end
-	else
-		return
-	end
 end
 
 function TOOL:Reload( trace )
@@ -166,6 +110,14 @@ function TOOL.BuildCPanel( panel )
 	UseCheckBox:SetValue( GetConVar( "sbep_docking_clamp_allowuse" ):GetBool()  )
 	local box = panel:TextEntry( "Model Override", "sbep_docking_clamp_tubemodel") 
 	box:SetValue("models/spacebuild/s1t1.mdl")
+	local combo = panel:ComboBox("Direction", "sbep_docking_clamp_direction")
+	combo:AddChoice("Forward")
+	combo:AddChoice("Back")
+	combo:AddChoice("Left")
+	combo:AddChoice("Right")
+	combo:AddChoice("Up")
+	combo:AddChoice("Down")
+	
 	for Tab,v in pairs( DockClampToolModels ) do
 		for Category, models in pairs( v ) do
 			local catPanel = vgui.Create( "DCollapsibleCategory", panel )
