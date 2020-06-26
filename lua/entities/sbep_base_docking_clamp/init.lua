@@ -402,6 +402,8 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 		WireLib.ApplyDupeInfo( pl, Ent, DI.WireData, function(id) return CreatedEntities[id] end)
 	end
 	
+	self:AddDockDoor()
+	
 end
 
 function ENT:Disengage()

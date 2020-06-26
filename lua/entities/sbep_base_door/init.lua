@@ -157,15 +157,14 @@ function ENT:Initialize()
 end
 
 function ENT:PhysicsInitialize()
-	self:PhysicsInit( SOLID_VPHYSICS )
-		self:SetMoveType( MOVETYPE_VPHYSICS )
+		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_VPHYSICS )
 		local phys = self:GetPhysicsObject()  	
 		if (phys:IsValid()) then  		
 			phys:Wake()  
-			phys:EnableGravity(false)
+			phys:EnableGravity(true)
 			--phys:EnableDrag(false)
-			phys:EnableMotion( true )
+			phys:EnableMotion( false )
 		end
 end
 
@@ -214,6 +213,7 @@ function ENT:Attach( ent , V , A )
 	if A then Aoff = Angle( A.p , A.y , A.r ) end
 	self:SetAngles( ent:GetAngles() + Aoff )
 		
+	self:SetParent(ent)
 	self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
 	
 	self:SetSkin( ent:GetSkin() )
@@ -222,8 +222,8 @@ function ENT:Attach( ent , V , A )
 	self.ATEnt	= ent
 	self.VecOff	= Voff
 	self.AngOff	= Aoff
+	self.Duped = true
 	
-	self:GetPhysicsObject():EnableMotion( true )
 	ent:DeleteOnRemove( self )
 end
 
@@ -313,6 +313,7 @@ function ENT:Close()
 end
 
 function ENT:Think()
+	
 	if !(self.OpenTrigger == nil) then
 		if self.OpenTrigger and !self:IsOpen() and !self.OpenStatus then
 			self:Open()
@@ -327,11 +328,13 @@ function ENT:Think()
 				self.ATWeld = C.Constraint
 			end
 		end
-		if !self.Duped and (!self.ATWeld or !self.ATWeld:IsValid()) then
- 			self:Attach( self.ATEnt , self.VecOff , self.AngOff )
-		else
-			if self.ATWeld then self.Duped=nil end
-		end
+	end
+	if !self.Duped and (!self.ATWeld or !self.ATWeld:IsValid()) then
+		print("h")
+ 		--self:Attach( self.ATEnt , self.VecOff , self.AngOff )
+	end
+	if self.ATWeld then
+		self.Duped=nil
 	end
 	if self.Cont then
 		if self:GetSkin() ~= self.Cont.Skin && self.Cont.Skin then
