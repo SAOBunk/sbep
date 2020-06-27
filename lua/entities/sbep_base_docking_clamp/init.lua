@@ -86,7 +86,7 @@ end
 
 function ENT:TriggerInput(iname, value)		
 	if (iname == "Dock") then
-		if (value > 0) and self.DockMode ~= 2 then
+		if (value > 0) and self.DockMode <= 2 then
 			self.DockMode = 2
 			self.Entity:EmitSound("Buttons.snd1")
 			elseif value <= 0 and self.DockMode ~= 0 and self.DockMode ~= 1 then
