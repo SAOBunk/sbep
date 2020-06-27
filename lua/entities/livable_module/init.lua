@@ -130,15 +130,22 @@ function ENT:PostEntityPaste(ply, ent, createdEnts)
 end
 
 function MakeLivableModule( Player, Data )
-	local ent = ents.Create( Data.Class )
-	duplicator.DoGeneric( ent, Data )
-	ent:Spawn()
-	duplicator.DoGenericPhysics( ent, Player, Data )
-	ent:SetPlayer(Player)
-	ent.damaged = Data.EntityMods.livable_module.damaged
-	if CPPI then ent:CPPISetOwner(Player) end
-	if Data.EntityMods.livable_module.Active == 1 then
-		ent:TurnOn()
+	local ent
+	if SC then
+		Data.Class = "prop_physics"
+		ent = GAMEMODE.MakeEnt(Player, Data)
+		MsgN(Player:Name().." attempted to dupe Livable Module, replaced with physics prop")
+	else
+		ent = ents.Create( Data.Class )
+		duplicator.DoGeneric( ent, Data )
+		ent:Spawn()
+		duplicator.DoGenericPhysics( ent, Player, Data )
+		ent:SetPlayer(Player)
+		ent.damaged = Data.EntityMods.livable_module.damaged
+		if CPPI then ent:CPPISetOwner(Player) end
+		if Data.EntityMods.livable_module.Active == 1 then
+			ent:TurnOn()
+		end
 	end
 	return ent
 end

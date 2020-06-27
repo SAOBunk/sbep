@@ -170,11 +170,10 @@ function TOOL:Think()
  end
 function TOOL:UpdateGhostPart( ent, pl )
 
-	if CLIENT then return end
 	if ( !IsValid( ent ) ) then return end
 
 	local tr = util.GetPlayerTrace( pl )
-	local trace	= util.TraceLine( tr )
+	local trace	= pl:GetEyeTrace()
 	if ( !trace.Hit ) then return end
 
 	if ( trace.Entity:IsPlayer()) then
@@ -188,7 +187,6 @@ function TOOL:UpdateGhostPart( ent, pl )
 	local NearestPoint = ent:NearestPoint( CurPos - ( trace.HitNormal * 512 ) )
 	local Offset = CurPos - NearestPoint
 
-	
 	ent:SetPos( trace.HitPos + Offset )
 
 	ent:SetNoDraw( false )
