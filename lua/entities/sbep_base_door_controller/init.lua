@@ -160,6 +160,5 @@ function ENT:PostEntityPaste(pl, Ent, CreatedEntities)
 	if(Ent.EntityMods and Ent.EntityMods.SBEPDC.WireData) then
 		WireLib.ApplyDupeInfo( pl, Ent, Ent.EntityMods.SBEPDC.WireData, function(id) return CreatedEntities[id] end)
 	end
-	self:AddDoors()
 
 end

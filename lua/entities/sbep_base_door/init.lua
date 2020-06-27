@@ -157,13 +157,14 @@ function ENT:Initialize()
 end
 
 function ENT:PhysicsInitialize()
+		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_VPHYSICS )
 		local phys = self:GetPhysicsObject()  	
 		if (phys:IsValid()) then  		
 			phys:Wake()  
 			phys:EnableGravity(true)
-			--phys:EnableDrag(false)
+			phys:EnableDrag(false)
 			phys:EnableMotion( false )
 		end
 end
@@ -185,6 +186,11 @@ function ENT:SetDoorVars( strType , nClass )
 	self.type  = strType
 	self.DClass = nClass or 1
 	self.D = DTT[ strType ][ self.DClass ]
+	if IsValid(self.Cont) then
+		self.Cont.type  = strType
+		self.Cont.doorclass = nClass or 1
+		self.Cont.D = DTT[ strType ][ self.DClass ]
+	end
 end
 
 function GetDoorType()
@@ -212,9 +218,9 @@ function ENT:Attach( ent , V , A )
 	local Aoff = Angle(0,0,0)
 	if A then Aoff = Angle( A.p , A.y , A.r ) end
 	self:SetAngles( ent:GetAngles() + Aoff )
-		
-	self:SetParent(ent)
+	
 	self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
+	self:SetParent(ent)
 	
 	self:SetSkin( ent:GetSkin() )
 	--self.OpenTrigger = false
@@ -330,7 +336,6 @@ function ENT:Think()
 		end
 	end
 	if !self.Duped and (!self.ATWeld or !self.ATWeld:IsValid()) then
-		print("h")
  		--self:Attach( self.ATEnt , self.VecOff , self.AngOff )
 	end
 	if self.ATWeld then
