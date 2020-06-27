@@ -151,6 +151,7 @@ function ENT:Initialize()
 	self.DisableUse 		= false
 	self.Timers 			= {}
 	self.Index				= self:EntIndex()
+	self.PhysgunDisabled = true
 	
 	self:SetUseType( SIMPLE_USE )
 	self:PhysicsInitialize()
@@ -163,9 +164,12 @@ function ENT:PhysicsInitialize()
 		local phys = self:GetPhysicsObject()  	
 		if (phys:IsValid()) then  		
 			phys:Wake()  
-			phys:EnableGravity(true)
+			phys:EnableGravity(false)
 			phys:EnableDrag(false)
-			phys:EnableMotion( false )
+			phys:EnableMotion( true )
+			phys:SetMass(1)
+			phys:SetDamping(0, 0)
+			phys:SetAngleDragCoefficient(0)
 		end
 end
 
@@ -219,7 +223,7 @@ function ENT:Attach( ent , V , A )
 	if A then Aoff = Angle( A.p , A.y , A.r ) end
 	self:SetAngles( ent:GetAngles() + Aoff )
 	
-	self.ATWeld = constraint.Weld( ent , self , 0, 0, 0, true )
+	self.ATWeld = constraint.NoCollide( ent , self , 0, 0 )
 	self:SetParent(ent)
 	
 	self:SetSkin( ent:GetSkin() )
