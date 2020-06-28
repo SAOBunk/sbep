@@ -13,8 +13,12 @@ function ENT:SetupDataTables()
 
 	self:NetworkVar( "Int", 1, "ActivePart" )
 	self:NetworkVar( "Int", 2, "SBEP_LiftPartCount" )
+	self:NetworkVar( "Bool", 2, "LiftActive" )
 	-- self:DTVar( "Bool", 0, "On" );
 	-- self:DTVar( "Vector", 0, "vecTrack" );
 	-- self:DTVar( "Entity", 0, "entTrack" );
 
 end
+
+
+ENT.WireDebugName = "SBEP Elevator System"

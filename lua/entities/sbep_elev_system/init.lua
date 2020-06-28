@@ -2,8 +2,6 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" ) 
 
-ENT.WireDebugName = "SBEP Elevator System"
-
 local PMT = {}
 PMT.S = {
 		"models/smallbridge/elevators_small/sbselevp0.mdl"	,
@@ -43,7 +41,7 @@ function ENT:Initialize()
 	self.Entity:SetNetworkedInt( "SBEP_LiftPartCount" , 0 )
 	--self:SetModel( PMT[self.Size[1]][5] ) 
 	
-	self.LiftActive = false
+	self.LiftActive = (false)
 	
 	self.SystemTable.ModelAccessTable = {0,0,0,0}
 
@@ -77,13 +75,15 @@ function ENT:Initialize()
 	
 	self:PhysicsInitialize()
 	
-	self:StartMotionController()
+	--self:StartMotionController()
+	
+	self:SetTrigger(true)
 
 end
 
 function ENT:PhysicsInitialize()
 	self:PhysicsInit( SOLID_VPHYSICS )
-		self:SetMoveType( MOVETYPE_VPHYSICS )
+		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_VPHYSICS )
 	local phys = self:GetPhysicsObject()  	
 	if IsValid(phys) then  		
@@ -175,18 +175,36 @@ function ENT:CheckSkin()
 	end
 end
 
-function ENT:Think()
+function ENT:StartTouch(ent)
+	if ent:IsPlayer() then
+		self.HandledPlayers[ent:EntIndex()] = ent
+	end
+end
 
-	if !self.LiftActive then	
+function ENT:EndTouch(ent)
+	if ent:IsPlayer() then
+		table.remove(self.HandledPlayers, ent:EntIndex())
+	end
+end
+
+function ENT:Think()
+	self.LastCurrentElevPos = self:GetPos()
+	if !self.LiftActive then
 		self.Entity:NextThink( CurTime() + 0.05 )
 		return true
 	end
-	self.Entity:NextThink( CurTime() + 0.01 )
-	
+	self.Entity:NextThink( CurTime() )
+	--self:UseTriggerBounds(true)
+	self:DoLiftMovement()
+
 	if self.CallFloorTable[1] then
 		self.TargetOffset = self.FloorTable[self:GetFloorNum()]
 	end
+	if self.PartTable[1] and not IsValid(self:GetParent()) then
+		self:SetParent(self.PartTable[1])
+		constraint.Weld(self, self.PartTable[1], 0, 0, 0, true, 0)
 
+	end
 	self.ATL = ( math.Round(self.Increment) == math.Round( self.TargetOffset ) )
 
 	if self.ATL ~= self.OldATL then
@@ -225,7 +243,7 @@ function ENT:Think()
 
 	if self.ATL then return true end
 	
-	self.Increment = self.Increment + math.Clamp( ( self.TargetOffset - self.Increment) , -0.6 , 0.6 )
+	self.Increment = self.Increment + math.Clamp( ( self.TargetOffset - self.Increment) , -3 , 3 )
 	
 	local D = 100000
 	local F = 0
@@ -253,13 +271,18 @@ function ENT:Think()
 		self:CheckHatchStatus()
 	end
 	
+	
 	return true
 end
 
-function ENT:PhysicsSimulate( phys, deltatime )
-
-	if !self.LiftActive or !self.PartTable or !IsValid(self.PartTable[1]) or !IsValid(self.PartTable[self:GetPartCount()]) then return SIM_NOTHING end
-
+function ENT:DoLiftMovement( deltatime )
+	if !self.LiftActive 
+		or !self.PartTable 
+		or !IsValid(self.PartTable[1]) 
+		or !IsValid(self.PartTable[self:GetPartCount()]) then 
+		return
+	end
+	self:UseTriggerBounds(true)
 	local Pos1 = self.PartTable[1]:GetPos()
 	local Pos2 = self.PartTable[self:GetPartCount()]:GetPos()
 	
@@ -273,16 +296,41 @@ function ENT:PhysicsSimulate( phys, deltatime )
 	end
 	self.CurrentElevAng:RotateAroundAxis( self.ShaftDirectionVector , self.SystemTable.AngleYawOffset )
 
-	phys:Wake()
+	--phys:Wake()
 	
-	self.ShadowParams.secondstoarrive = 0.01
-	self.ShadowParams.pos = self.CurrentElevPos
-	self.ShadowParams.angle = self.CurrentElevAng
-	self.ShadowParams.deltatime = deltatime
+	--local pos = LerpVector(0.01, Pos1, self.CurrentElevPos)
+	local vec = self.CurrentElevPos - self:GetPos()
+	self.HandledPlayers = self.HandledPlayers or {}
+	if vec:Length() > 1 then
+		for k,v in pairs(self.HandledPlayers) do
+			--v:SetPos(v:GetPos() + vec * 4)
+			v:SetGroundEntity(self)
+		end
+	end
+	self:SetVelocity(self.ShaftDirectionVector)
+	self:SetPos(self.CurrentElevPos)
+	self:SetAngles(self.CurrentElevAng)
 	
-	return phys:ComputeShadowControl(self.ShadowParams)
-
 end
+
+hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
+	local ent = ply:GetGroundEntity()
+	local tr = util.TraceLine({
+		start = ply:WorldSpaceCenter(),
+		endpos = ply:WorldSpaceCenter() + mv:GetVelocity():GetNormalized() * 55,
+		filter = function(ent) if ent:GetClass() == "sbep_elev_system" then return true else return false end end
+	})
+	if IsValid(tr.Entity) and tr.Entity:GetClass() == "sbep_elev_system" then ent = tr.Entity end
+	if IsValid(ent) and ent:GetClass() == "sbep_elev_system" then
+		ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
+		local vec = ent:GetPos() - ent.LastCurrentElevPos
+		if vec:Length() > 1 then
+			--ply:SetGroundEntity(ent)
+			mv:SetOrigin(mv:GetOrigin() + vec + Vector(0,0,0.1))
+			mv:SetVelocity(mv:GetVelocity() + vec)
+		end
+	end
+end)
 
 function ENT:CheckHatchStatus()
 	if 	!self.SystemTable.UseHatches 	 or
@@ -353,13 +401,13 @@ function ENT:FinishSystem()
 	
 	self:CheckSkin() --Sets skin of self
 	
-	self:StartMotionController()
+	--self:StartMotionController()
 	
 	self.SystemTable.model = self:GetModel()
 	
 	self:WeldSystem() --Welds and Nocollides the parts appropriately
 	
-	self.Entity:GetPhysicsObject():EnableMotion( true )
+	--self.Entity:GetPhysicsObject():EnableMotion( true )
 	
 	for n,Part in ipairs( self.PartTable ) do --Setting up the floors 
 		if !Part.PartData.SD.IsShaft then
@@ -392,7 +440,7 @@ function ENT:FinishSystem()
 	
 	self:AddCallFloorNum( 1 )
 	
-	self.LiftActive = true
+	self.LiftActive = (true)
 	
 	local ply = self.Entity:GetOwner()
 	undo.Create( "SBEP Lift System" )
