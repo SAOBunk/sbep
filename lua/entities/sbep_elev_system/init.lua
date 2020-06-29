@@ -324,12 +324,12 @@ hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
 	if IsValid(ent) and ent:GetClass() == "sbep_elev_system" then
 		ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
 		local vec = (ent:GetPos() - ent.LastCurrentElevPos)
-		if vec:Length() > 1 or tr.Hit then
-			if tr.Hit then
-				mv:SetOrigin(tr.HitPos)
-				else
+		if vec:Length() > 1 then				
+			if vec.z > 1 then
 				mv:SetOrigin(mv:GetOrigin() + vec)
 				ply:SetGroundEntity(ent)
+			else
+				mv:SetOrigin(tr.HitPos)
 			end
 			mv:SetVelocity(mv:GetVelocity() + vec)
 		end
