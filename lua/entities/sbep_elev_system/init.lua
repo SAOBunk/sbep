@@ -329,7 +329,9 @@ hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
 				mv:SetOrigin(mv:GetOrigin() + vec)
 				ply:SetGroundEntity(ent)
 			else
-				mv:SetOrigin(tr.HitPos)
+				local vel = mv:GetVelocity()
+				vel.z = 0
+				mv:SetOrigin(tr.HitPos + vel)
 			end
 			mv:SetVelocity(mv:GetVelocity() + vec)
 		end
