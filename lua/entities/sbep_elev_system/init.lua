@@ -317,18 +317,18 @@ hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
 	local ent = ply:GetGroundEntity()
 	local tr = util.TraceLine({
 		start = ply:WorldSpaceCenter(),
-		endpos = ply:WorldSpaceCenter() + mv:GetVelocity():GetNormalized() * 55,
+		endpos = ply:WorldSpaceCenter() - ply:GetUp() * 55,
 		filter = function(ent) if ent:GetClass() == "sbep_elev_system" then return true else return false end end
 	})
 	if IsValid(tr.Entity) and tr.Entity:GetClass() == "sbep_elev_system" then ent = tr.Entity end
 	if IsValid(ent) and ent:GetClass() == "sbep_elev_system" then
-		ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
-		local vec = (ent:GetPos() - ent.LastCurrentElevPos)
-		if vec:Length() > 1 then
+		--ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
+		--local vec = (ent:GetPos() - ent.LastCurrentElevPos)
+		--if vec:Length() > 1 then
 			--ply:SetGroundEntity(ent)
 			mv:SetOrigin(tr.HitPos)
 			--mv:SetVelocity(mv:GetVelocity() + vec)
-		end
+		--end
 	end
 end)
 
