@@ -326,7 +326,10 @@ hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
 		local vec = (ent:GetPos() - ent.LastCurrentElevPos)
 		if vec:Length() > 1 then				
 			if vec.z < 1 then
-				mv:SetOrigin(mv:GetOrigin() + vec + ent:GetUp() * 5)
+				if vec:GetNormalized():Dot(ent:GetUp()) > 0 then
+					vec = vec * 2
+				end
+				mv:SetOrigin(mv:GetOrigin() + vec)
 				ply:SetGroundEntity(ent)
 			else
 				mv:SetOrigin(tr.HitPos)
