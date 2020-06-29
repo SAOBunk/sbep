@@ -75,7 +75,7 @@ function ENT:Initialize()
 	
 	self:PhysicsInitialize()
 	
-	--self:StartMotionController()
+	self:StartMotionController()
 	
 	self:SetTrigger(true)
 
@@ -83,13 +83,14 @@ end
 
 function ENT:PhysicsInitialize()
 	self:PhysicsInit( SOLID_VPHYSICS )
-		self:SetMoveType( MOVETYPE_NONE )
+		self:SetMoveType( MOVETYPE_VPHYSICS )
 		self:SetSolid( SOLID_VPHYSICS )
 	local phys = self:GetPhysicsObject()  	
 	if IsValid(phys) then  		
 		phys:Wake() 
 		phys:EnableGravity(false)
-		phys:EnableMotion(false)
+		phys:EnableMotion(true)
+		phys:EnableDrag(false)
 		phys:SetMass( 1000 )
 	end
 end
@@ -176,33 +177,46 @@ function ENT:CheckSkin()
 end
 
 function ENT:StartTouch(ent)
+	self.HandledPlayers = self.HandledPlayers or {}
 	if ent:IsPlayer() then
 		self.HandledPlayers[ent:EntIndex()] = ent
 	end
 end
 
 function ENT:EndTouch(ent)
+	self.HandledPlayers = self.HandledPlayers or {}
 	if ent:IsPlayer() then
 		table.remove(self.HandledPlayers, ent:EntIndex())
 	end
 end
 
 function ENT:Think()
-	self.LastCurrentElevPos = self:GetPos()
+	local phys = self:GetPhysicsObject()  	
+	if IsValid(phys) then  		
+		phys:Wake() 
+		phys:EnableMotion(true)
+		phys:SetMass( 1000 )
+	end
+	if constraint.FindConstraint(self, "Weld") then constraint.RemoveConstraints(self, "Weld") end
+	if IsValid(self:GetParent()) then self:SetParent() end
+	
+	if IsValid(self.PartTable[1]) and IsValid(self.PartTable[1].SC_CoreEnt) then
+		self.SC_CoreEnt = self.PartTable[1].SC_CoreEnt
+	end
+	
 	if !self.LiftActive then
 		self.Entity:NextThink( CurTime() + 0.05 )
 		return true
 	end
 	self.Entity:NextThink( CurTime() )
-	--self:UseTriggerBounds(true)
-	self:DoLiftMovement()
-
+	self:UseTriggerBounds(true)
+	--self:DoLiftMovement()
 	if self.CallFloorTable[1] then
 		self.TargetOffset = self.FloorTable[self:GetFloorNum()]
 	end
-	if self.PartTable[1] and not IsValid(self:GetParent()) then
-		self:SetParent(self.PartTable[1])
-		constraint.Weld(self, self.PartTable[1], 0, 0, 0, true, 0)
+	if self.PartTable[1] and not constraint.FindConstraint(self, "NoCollide") then
+		--self:SetParent(self.PartTable[1])
+		constraint.NoCollide(self, self.PartTable[1], 0, 0, 0, true, 0)
 
 	end
 	self.ATL = ( math.Round(self.Increment) == math.Round( self.TargetOffset ) )
@@ -313,31 +327,59 @@ function ENT:DoLiftMovement( deltatime )
 	
 end
 
-hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
-	local ent = ply:GetGroundEntity()
-	local tr = util.TraceLine({
-		start = ply:WorldSpaceCenter(),
-		endpos = ply:WorldSpaceCenter() - ply:GetUp() * 55,
-		filter = function(ent) if ent:GetClass() == "sbep_elev_system" then return true else return false end end
-	})
-	if IsValid(tr.Entity) and tr.Entity:GetClass() == "sbep_elev_system" then ent = tr.Entity end
-	if IsValid(ent) and ent:GetClass() == "sbep_elev_system" then
-		ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
-		local vec = (ent:GetPos() - ent.LastCurrentElevPos)
-		if vec:Length() > 1 then				
-			if vec.z < 1 then
-				if vec:GetNormalized():Dot(ent:GetUp()) > 0 then
-					vec = vec * 2
-				end
-				mv:SetOrigin(mv:GetOrigin() + vec)
-				ply:SetGroundEntity(ent)
-			else
-				mv:SetOrigin(tr.HitPos)
-			end
-			mv:SetVelocity(mv:GetVelocity() + vec)
-		end
-		end
-end)
+function ENT:PhysicsSimulate( phys, deltatime )
+	
+	if !self.LiftActive or !self.PartTable or !IsValid(self.PartTable[1]) or !IsValid(self.PartTable[self:GetPartCount()]) then return SIM_NOTHING end
+
+	local Pos1 = self.PartTable[1]:GetPos()
+	local Pos2 = self.PartTable[self:GetPartCount()]:GetPos()
+	
+	self.ShaftDirectionVector = Pos2 - Pos1
+	self.ShaftDirectionVector:Normalize()
+	
+	self.CurrentElevPos = Pos1 + (self.ShaftDirectionVector * self.Increment)
+	self.CurrentElevAng = self.PartTable[1]:GetAngles()
+	if self.PartTable[1].PartData.Inv then
+		self.CurrentElevAng = self.CurrentElevAng + Angle( 0 , 0 , 180 )
+	end
+	self.CurrentElevAng:RotateAroundAxis( self.ShaftDirectionVector , self.SystemTable.AngleYawOffset )
+
+	phys:Wake()
+	
+	self.ShadowParams.secondstoarrive = 0.01
+	self.ShadowParams.pos = self.CurrentElevPos
+	self.ShadowParams.angle = self.CurrentElevAng
+	self.ShadowParams.deltatime = deltatime
+	
+	return phys:ComputeShadowControl(self.ShadowParams)
+
+end
+
+-- hook.Add("SetupMove", "DoElevatorMovement", function(ply, mv, cmd)
+	-- local ent = ply:GetGroundEntity()
+	-- local tr = util.TraceLine({
+		-- start = ply:WorldSpaceCenter(),
+		-- endpos = ply:WorldSpaceCenter() - ply:GetUp() * 55,
+		-- filter = function(ent) if ent:GetClass() == "sbep_elev_system" then return true else return false end end
+	-- })
+	-- if IsValid(tr.Entity) and tr.Entity:GetClass() == "sbep_elev_system" then ent = tr.Entity end
+	-- if IsValid(ent) and ent:GetClass() == "sbep_elev_system" then
+		-- ent.LastCurrentElevPos = ent.LastCurrentElevPos or ent:GetPos()
+		-- local vec = (ent:GetPos() - ent.LastCurrentElevPos)
+		-- if vec:Length() > 1 then				
+			-- if vec.z < 1 then
+				-- if vec:GetNormalized():Dot(ent:GetUp()) > 0 then
+					-- vec = vec * 2
+				-- end
+				-- mv:SetOrigin(mv:GetOrigin() + vec)
+				-- ply:SetGroundEntity(ent)
+			-- else
+				-- mv:SetOrigin(tr.HitPos)
+			-- end
+			-- mv:SetVelocity(mv:GetVelocity() + vec)
+		-- end
+		-- end
+-- end)
 
 function ENT:CheckHatchStatus()
 	if 	!self.SystemTable.UseHatches 	 or
@@ -408,13 +450,13 @@ function ENT:FinishSystem()
 	
 	self:CheckSkin() --Sets skin of self
 	
-	--self:StartMotionController()
+	self:StartMotionController()
 	
 	self.SystemTable.model = self:GetModel()
 	
 	self:WeldSystem() --Welds and Nocollides the parts appropriately
 	
-	--self.Entity:GetPhysicsObject():EnableMotion( true )
+	self.Entity:GetPhysicsObject():EnableMotion( true )
 	
 	for n,Part in ipairs( self.PartTable ) do --Setting up the floors 
 		if !Part.PartData.SD.IsShaft then
