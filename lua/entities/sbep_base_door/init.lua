@@ -3,6 +3,7 @@ AddCSLuaFile( "shared.lua" )
 include( "shared.lua" ) 
 
 ENT.WireDebugName = "SBEP Door"
+ENT.Speed = 1
 
 local DTT = {}
 
@@ -282,14 +283,12 @@ function ENT:Open()
 		self:OpenDoorSounds()
 		local var = "SBEP_"..tostring( self.Index ).."_OpenSolid"
 		table.insert( self.Timers , var )
-		
-		timer.Create( var , self.D.OD , 1 , function()
+		timer.Create( var , self.D.OD , 1 / self.Speed , function()
 			self:SetNotSolid( true )
 		end)
 		local var = "SBEP_"..tostring( self.Index ).."_OpenStatus"
 		table.insert( self.Timers , var )
-		
-		timer.Create( var , self.D.UD , 1 , function()
+		timer.Create( var , self.D.UD , 1 / self.Speed , function()
 			self.OpenStatus = true
 			if self.Cont then
 				WireLib.TriggerOutput(self.Cont,"Open_"..tostring( self.SDN ),1)
@@ -306,12 +305,12 @@ function ENT:Close()
 		self:CloseDoorSounds()
 		local var = "SBEP_"..tostring( self.Index ).."_CloseSolid"
 		table.insert( self.Timers , var )
-		timer.Create( var , self.D.CD , 1 , function()
+		timer.Create( var , self.D.CD , 1 / self.Speed , function()
 							self:SetNotSolid( false )
 						end)
 		local var = "SBEP_"..tostring( self.Index ).."_CloseStatus"
 		table.insert( self.Timers , var )
-		timer.Create( var , self.D.UD , 1 , function()
+		timer.Create( var , self.D.UD , 1 / self.Speed , function()
 							self.OpenStatus = false
 							if self.Cont then
 								WireLib.TriggerOutput(self.Cont,"Open_"..tostring( self.SDN ),0)

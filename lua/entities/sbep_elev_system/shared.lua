@@ -20,5 +20,4 @@ function ENT:SetupDataTables()
 
 end
 
-
 ENT.WireDebugName = "SBEP Elevator System"
