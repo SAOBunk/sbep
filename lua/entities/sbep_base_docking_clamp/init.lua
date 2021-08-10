@@ -76,11 +76,6 @@ function ENT:Initialize()
 	self.Usable = true
 	self:GetEFPoints()
 	self:CalcCenterPos()
-	if SC then
-		local bmins, bmaxs = self:GetModelBounds()
-		local sizemult = bmins:Distance(bmaxs)/1425
-		self.Flowrate = math.Round(10000 * sizemult)
-	end
 	self.ModelSize = self:FindModelSize()
 end
 
@@ -268,8 +263,10 @@ function ENT:BalanceShields()
 	if IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock) and IsValid(self.LinkLock.SC_CoreEnt) then
 		if self.SC_CoreEnt:GetShieldAmount() < self.SC_CoreEnt:GetShieldMax() then
 			if self.LinkLock.SC_CoreEnt:GetShieldAmount() > self.SC_CoreEnt:GetShieldAmount() then
-				self.SC_CoreEnt:SetShieldAmount(self.SC_CoreEnt:GetShieldAmount() + math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, self.Flowrate))
-				self.LinkLock.SC_CoreEnt:SetShieldAmount(self.LinkLock.SC_CoreEnt:GetShieldAmount() - math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, self.Flowrate))
+				--fill in 10 seconds
+				Flowrate = math.min(self.SC_CoreEnt:GetShieldMax(), self.LinkLock.SC_CoreEnt:GetShieldMax()) / (10/engine.TickInterval())
+				self.SC_CoreEnt:SetShieldAmount(self.SC_CoreEnt:GetShieldAmount() + math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, Flowrate))
+				self.LinkLock.SC_CoreEnt:SetShieldAmount(self.LinkLock.SC_CoreEnt:GetShieldAmount() - math.Clamp(self.SC_CoreEnt:GetShieldMax() - self.SC_CoreEnt:GetShieldAmount(), 1, Flowrate))
 			end
 		end
 		
@@ -279,8 +276,10 @@ function ENT:BalanceCap()
 	if IsValid(self.SC_CoreEnt) and IsValid(self.LinkLock) and IsValid(self.LinkLock.SC_CoreEnt) then
 		if self.SC_CoreEnt:GetAmount("Energy") < self.SC_CoreEnt:GetMaxAmount("Energy") then
 			if self.LinkLock.SC_CoreEnt:GetAmount("Energy") > self.SC_CoreEnt:GetAmount("Energy") then
-				self.SC_CoreEnt:SetAmount("Energy", self.SC_CoreEnt:GetAmount("Energy") + math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy") - self.SC_CoreEnt:GetAmount("Energy"), 1, self.Flowrate))
-				self.LinkLock.SC_CoreEnt:SetAmount("Energy", self.LinkLock.SC_CoreEnt:GetAmount("Energy") - math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy")  - self.SC_CoreEnt:GetAmount("Energy"), 1, self.Flowrate))
+				--fill in 8 seconds
+				Flowrate = math.min(self.SC_CoreEnt:GetMaxAmount("Energy"), self.LinkLock.SC_CoreEnt:GetMaxAmount("Energy")) / (8/engine.TickInterval())
+				self.SC_CoreEnt:SetAmount("Energy", self.SC_CoreEnt:GetAmount("Energy") + math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy") - self.SC_CoreEnt:GetAmount("Energy"), 1, Flowrate))
+				self.LinkLock.SC_CoreEnt:SetAmount("Energy", self.LinkLock.SC_CoreEnt:GetAmount("Energy") - math.Clamp(self.SC_CoreEnt:GetMaxAmount("Energy")  - self.SC_CoreEnt:GetAmount("Energy"), 1, Flowrate))
 			end
 		end
 	end
