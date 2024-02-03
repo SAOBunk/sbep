@@ -566,11 +566,13 @@ if CLIENT then
 		end
 		
 		local function CLNWLift( entLift )
-			timer.Simple( 0.2, function()  
-				if entLift:GetNWBool( "Sendable" ) and IsValid(entLift) and LocalPlayer() == entLift:GetOwner() then
-					LD.SBEP_OpenLiftDesignMenu( entLift )
-					RunConsoleCommand( "SBEP_LiftGetCamHeight_ser" )
-					return true
+			timer.Simple( 0.2, function() 
+				if IsValid(entLift) then
+					if entLift:GetNWBool( "Sendable" ) and LocalPlayer() == entLift:GetOwner() then
+						LD.SBEP_OpenLiftDesignMenu( entLift )
+						RunConsoleCommand( "SBEP_LiftGetCamHeight_ser" )
+						return true
+					end
 				end
 			end )
 		end
